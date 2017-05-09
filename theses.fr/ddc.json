@@ -1,0 +1,550 @@
+[
+  {
+    "oaiSetSpec": "ddc:610",
+    "label": "Médecine et santé"
+  },
+  {
+    "oaiSetSpec": "ddc:530",
+    "label": "Physique"
+  },
+  {
+    "oaiSetSpec": "ddc:620",
+    "label": "Sciences de l'ingénieur"
+  },
+  {
+    "oaiSetSpec": "ddc:570",
+    "label": "Sciences de la vie, biologie, biochimie"
+  },
+  {
+    "oaiSetSpec": "ddc:340",
+    "label": "Droit"
+  },
+  {
+    "oaiSetSpec": "ddc:540",
+    "label": "Chimie, minéralogie, cristallographie"
+  },
+  {
+    "oaiSetSpec": "ddc:150",
+    "label": "Psychologie"
+  },
+  {
+    "oaiSetSpec": "ddc:004",
+    "label": "Informatique"
+  },
+  {
+    "oaiSetSpec": "ddc:550",
+    "label": "Sciences de la terre"
+  },
+  {
+    "oaiSetSpec": "ddc:330",
+    "label": "Economie"
+  },
+  {
+    "oaiSetSpec": "ddc:900",
+    "label": "Géographie et histoire"
+  },
+  {
+    "oaiSetSpec": "ddc:300",
+    "label": "Sciences sociales, sociologie, anthropologie"
+  },
+  {
+    "oaiSetSpec": "ddc:510",
+    "label": "Mathématiques"
+  },
+  {
+    "oaiSetSpec": "ddc:650",
+    "label": "Gestion et organisation de l'entreprise"
+  },
+  {
+    "oaiSetSpec": "ddc:840",
+    "label": "Littérature de langues romanes. Littérature française"
+  },
+  {
+    "oaiSetSpec": "ddc:700",
+    "label": "Arts. Beaux-arts et arts décoratifs"
+  },
+  {
+    "oaiSetSpec": "ddc:800",
+    "label": "Histoire et critique littéraires, rhétorique"
+  },
+  {
+    "oaiSetSpec": "ddc:400",
+    "label": "Langues et linguistique"
+  },
+  {
+    "oaiSetSpec": "ddc:100",
+    "label": "Philosophie, psychologie"
+  },
+  {
+    "oaiSetSpec": "ddc:910",
+    "label": "Géographie et voyages"
+  },
+  {
+    "oaiSetSpec": "ddc:500",
+    "label": "Sciences de la nature et mathématiques"
+  },
+  {
+    "oaiSetSpec": "ddc:320",
+    "label": "Science politique"
+  },
+  {
+    "oaiSetSpec": "ddc:600",
+    "label": "Technologie (Sciences appliquées)"
+  },
+  {
+    "oaiSetSpec": "ddc:370",
+    "label": "Education et enseignement"
+  },
+  {
+    "oaiSetSpec": "ddc:410",
+    "label": "Linguistique générale"
+  },
+  {
+    "oaiSetSpec": "ddc:930",
+    "label": "Histoire ancienne et préhistoire"
+  },
+  {
+    "oaiSetSpec": "ddc:660",
+    "label": "Génie chimique, technologies alimentaires"
+  },
+  {
+    "oaiSetSpec": "ddc:390",
+    "label": "Ethnologie"
+  },
+  {
+    "oaiSetSpec": "ddc:020",
+    "label": "Bibliothéconomie et sciences de l'information"
+  },
+  {
+    "oaiSetSpec": "ddc:940",
+    "label": "Histoire moderne et contemporaine de l'Europe"
+  },
+  {
+    "oaiSetSpec": "ddc:420",
+    "label": "Langue anglaise. Anglo-saxon"
+  },
+  {
+    "oaiSetSpec": "ddc:820",
+    "label": "Littératures anglaise et anglo-saxonne"
+  },
+  {
+    "oaiSetSpec": "ddc:630",
+    "label": "Agronomie, agriculture et médecine vétérinaire"
+  },
+  {
+    "oaiSetSpec": "ddc:790",
+    "label": "Arts du spectacle, loisirs"
+  },
+  {
+    "oaiSetSpec": "ddc:520",
+    "label": "Astronomie, cartographie, géodésie"
+  },
+  {
+    "oaiSetSpec": "ddc:000",
+    "label": "Informatique, information, généralités"
+  },
+  {
+    "oaiSetSpec": "ddc:580",
+    "label": "Plantes. Botanique"
+  },
+  {
+    "oaiSetSpec": "ddc:440",
+    "label": "Langues romanes. Français"
+  },
+  {
+    "oaiSetSpec": "ddc:796",
+    "label": "Sport"
+  },
+  {
+    "oaiSetSpec": "ddc:490",
+    "label": "Autres langues"
+  },
+  {
+    "oaiSetSpec": "ddc:780",
+    "label": "Musique"
+  },
+  {
+    "oaiSetSpec": "ddc:890",
+    "label": "Littératures des autres langues"
+  },
+  {
+    "oaiSetSpec": "ddc:380",
+    "label": "Commerce, communications, transports"
+  },
+  {
+    "oaiSetSpec": "ddc:120",
+    "label": "Epistémologie, causalité, genre humain"
+  },
+  {
+    "oaiSetSpec": "ddc:200",
+    "label": "Religion"
+  },
+  {
+    "oaiSetSpec": "ddc:460",
+    "label": "Langues espagnole et portugaise"
+  },
+  {
+    "oaiSetSpec": "ddc:710",
+    "label": "Urbanisme"
+  },
+  {
+    "oaiSetSpec": "ddc:860",
+    "label": "Littératures espagnole et portugaise"
+  },
+  {
+    "oaiSetSpec": "ddc:944",
+    "label": "Histoire générale de la France"
+  },
+  {
+    "oaiSetSpec": "ddc:590",
+    "label": "Animaux. Zoologie"
+  },
+  {
+    "oaiSetSpec": "ddc:670",
+    "label": "Fabrication industrielle"
+  },
+  {
+    "oaiSetSpec": "ddc:950",
+    "label": "Histoire générale de l'Asie, Orient, Extrême-Orient"
+  },
+  {
+    "oaiSetSpec": "ddc:970",
+    "label": "Histoire générale de l'Amérique du Nord"
+  },
+  {
+    "oaiSetSpec": "ddc:830",
+    "label": "Littérature allemande"
+  },
+  {
+    "oaiSetSpec": "ddc:430",
+    "label": "Langues germaniques. Allemand"
+  },
+  {
+    "oaiSetSpec": "ddc:730",
+    "label": "Arts plastiques. Sculpture"
+  },
+  {
+    "oaiSetSpec": "ddc:850",
+    "label": "Littérature italienne"
+  },
+  {
+    "oaiSetSpec": "ddc:720",
+    "label": "Architecture"
+  },
+  {
+    "oaiSetSpec": "ddc:560",
+    "label": "Paléontologie. Paléozoologie"
+  },
+  {
+    "oaiSetSpec": "ddc:810",
+    "label": "Littérature américaine en anglais"
+  },
+  {
+    "oaiSetSpec": "ddc:480",
+    "label": "Langues helléniques. Grec classique"
+  },
+  {
+    "oaiSetSpec": "ddc:870",
+    "label": "Littérature latine"
+  },
+  {
+    "oaiSetSpec": "ddc:880",
+    "label": "Littérature grecque"
+  },
+  {
+    "oaiSetSpec": "ddc:960",
+    "label": "Histoire générale de l'Afrique"
+  },
+  {
+    "oaiSetSpec": "ddc:290",
+    "label": "Autres religions"
+  },
+  {
+    "oaiSetSpec": "ddc:470",
+    "label": "Langues italiques. Latin"
+  },
+  {
+    "oaiSetSpec": "ddc:310",
+    "label": "Statistiques générales"
+  },
+  {
+    "oaiSetSpec": "ddc:450",
+    "label": "Langues italienne, roumaine, rhéto-romane"
+  },
+  {
+    "oaiSetSpec": "ddc:190",
+    "label": "Philosophie occidentale moderne et philosophies non orientales"
+  },
+  {
+    "oaiSetSpec": "ddc:070",
+    "label": "Médias d'information, journalisme, édition"
+  },
+  {
+    "oaiSetSpec": "ddc:360",
+    "label": "Problèmes et services sociaux"
+  },
+  {
+    "oaiSetSpec": "ddc:230",
+    "label": "Théologie chrétienne"
+  },
+  {
+    "oaiSetSpec": "ddc:980",
+    "label": "Histoire générale de l'Amérique du Sud"
+  },
+  {
+    "oaiSetSpec": "ddc:770",
+    "label": "Photographie et les photographies, art numérique"
+  },
+  {
+    "oaiSetSpec": "ddc:350",
+    "label": "Administration publique. Arts et science militaires"
+  },
+  {
+    "oaiSetSpec": "ddc:690",
+    "label": "Bâtiments"
+  },
+  {
+    "oaiSetSpec": "ddc:750",
+    "label": "Peinture"
+  },
+  {
+    "oaiSetSpec": "ddc:170",
+    "label": "Morale (éthique)"
+  },
+  {
+    "oaiSetSpec": "ddc:180",
+    "label": "Philosophie de l'Antiquité, du Moyen Âge, de l'Orient"
+  },
+  {
+    "oaiSetSpec": "ddc:270",
+    "label": "Histoire et géographie du christianisme et de l'Eglise chrétienne"
+  },
+  {
+    "oaiSetSpec": "ddc:210",
+    "label": "Philosophie et théorie de la religion"
+  },
+  {
+    "oaiSetSpec": "ddc:680",
+    "label": "Fabrication de produits à usages spécifiques"
+  },
+  {
+    "oaiSetSpec": "ddc:060",
+    "label": "Organisations générales et muséologie"
+  },
+  {
+    "oaiSetSpec": "ddc:110",
+    "label": "Métaphysique"
+  },
+  {
+    "oaiSetSpec": "ddc:260",
+    "label": "Théologie chrétienne et société, ecclésiologie"
+  },
+  {
+    "oaiSetSpec": "ddc:740",
+    "label": "Dessin. Arts décoratifs"
+  },
+  {
+    "oaiSetSpec": "ddc:220",
+    "label": "Bible"
+  },
+  {
+    "oaiSetSpec": "ddc:760",
+    "label": "Arts graphiques"
+  },
+  {
+    "oaiSetSpec": "ddc:160",
+    "label": "Logique"
+  },
+  {
+    "oaiSetSpec": "ddc:240",
+    "label": "Théologie morale et pratiques chrétiennes"
+  },
+  {
+    "oaiSetSpec": "ddc:090",
+    "label": "Manuscrits et livres rares"
+  },
+  {
+    "oaiSetSpec": "ddc:920",
+    "label": "Biographies générales, généalogie, amblèmes"
+  },
+  {
+    "oaiSetSpec": "ddc:140",
+    "label": "Les divers systèmes et écoles philosophiques"
+  },
+  {
+    "oaiSetSpec": "ddc:990",
+    "label": "Histoire générale des autres parties du monde, des mondes extraterrestres. Iles du Pacifique"
+  },
+  {
+    "oaiSetSpec": "ddc:250",
+    "label": "Eglises locales, ordres religieux chrétiens"
+  },
+  {
+    "oaiSetSpec": "ddc:280",
+    "label": "Confessions et sectes de l'Eglise chrétienne"
+  },
+  {
+    "oaiSetSpec": "ddc:640",
+    "label": "Economie domestique. Vie familiale"
+  },
+  {
+    "oaiSetSpec": "ddc:617.6",
+    "label": "null"
+  },
+  {
+    "oaiSetSpec": "ddc:346",
+    "label": "null"
+  },
+  {
+    "oaiSetSpec": "ddc:930.1",
+    "label": "null"
+  },
+  {
+    "oaiSetSpec": "ddc:130",
+    "label": "Phénomènes paranormaux, pseudosciences"
+  },
+  {
+    "oaiSetSpec": "ddc:701",
+    "label": "null"
+  },
+  {
+    "oaiSetSpec": "ddc:915",
+    "label": "null"
+  },
+  {
+    "oaiSetSpec": "c:610",
+    "label": "null"
+  },
+  {
+    "oaiSetSpec": "ddc:615",
+    "label": "null"
+  },
+  {
+    "oaiSetSpec": "ddc:658",
+    "label": "null"
+  },
+  {
+    "oaiSetSpec": "ddc:791.43",
+    "label": "null"
+  },
+  {
+    "oaiSetSpec": "ddc:003",
+    "label": "null"
+  },
+  {
+    "oaiSetSpec": "ddc:247",
+    "label": "null"
+  },
+  {
+    "oaiSetSpec": "ddc:342",
+    "label": "null"
+  },
+  {
+    "oaiSetSpec": "ddc:519",
+    "label": "null"
+  },
+  {
+    "oaiSetSpec": "ddc:543",
+    "label": "null"
+  },
+  {
+    "oaiSetSpec": "ddc:547",
+    "label": "null"
+  },
+  {
+    "oaiSetSpec": "ddc:561",
+    "label": "null"
+  },
+  {
+    "oaiSetSpec": "ddc:571",
+    "label": "null"
+  },
+  {
+    "oaiSetSpec": "ddc:572",
+    "label": "null"
+  },
+  {
+    "oaiSetSpec": "ddc:574",
+    "label": "null"
+  },
+  {
+    "oaiSetSpec": "ddc:629",
+    "label": "null"
+  },
+  {
+    "oaiSetSpec": "ddc:635",
+    "label": "null"
+  },
+  {
+    "oaiSetSpec": "ddc:701.17",
+    "label": "null"
+  },
+  {
+    "oaiSetSpec": "ddc:709.04",
+    "label": "null"
+  },
+  {
+    "oaiSetSpec": "ddc:709.66",
+    "label": "null"
+  },
+  {
+    "oaiSetSpec": "ddc:711",
+    "label": "null"
+  },
+  {
+    "oaiSetSpec": "ddc:723.1",
+    "label": "null"
+  },
+  {
+    "oaiSetSpec": "ddc:724.6",
+    "label": "null"
+  },
+  {
+    "oaiSetSpec": "ddc:745.4",
+    "label": "null"
+  },
+  {
+    "oaiSetSpec": "ddc:745.5",
+    "label": "null"
+  },
+  {
+    "oaiSetSpec": "ddc:759.44",
+    "label": "null"
+  },
+  {
+    "oaiSetSpec": "ddc:792.024",
+    "label": "null"
+  },
+  {
+    "oaiSetSpec": "ddc:792.8",
+    "label": "null"
+  },
+  {
+    "oaiSetSpec": "ddc:794",
+    "label": "null"
+  },
+  {
+    "oaiSetSpec": "ddc:929.92",
+    "label": "null"
+  },
+  {
+    "oaiSetSpec": "ddc:936.4",
+    "label": "null"
+  },
+  {
+    "oaiSetSpec": "ddc:938",
+    "label": "null"
+  },
+  {
+    "oaiSetSpec": "ddc:965",
+    "label": "null"
+  },
+  {
+    "oaiSetSpec": "ddc:Dewey",
+    "label": "null"
+  },
+  {
+    "oaiSetSpec": "ddc:T510",
+    "label": "null"
+  }
+]
