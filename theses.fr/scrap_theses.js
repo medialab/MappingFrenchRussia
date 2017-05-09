@@ -26,7 +26,7 @@ function downloadAllDocuments(url, query, documents, cb){
 	    	documents = documents.concat(requestData.response.docs)
 	    	console.log(`response with start=${requestData.response.start} returned ${requestData.response.docs.length} docs`);
 	    	if (requestData.response.start + requestData.response.docs.length  < requestData.response.numFound){
-	    		query.start = requestData.response.start + requestData.response.docs.length + 1
+	    		query.start = requestData.response.start + requestData.response.docs.length
 	    		downloadAllDocuments(url, query, documents, cb);
 	    	}
 	    	else
