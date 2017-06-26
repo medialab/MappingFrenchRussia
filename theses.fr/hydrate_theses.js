@@ -18,14 +18,50 @@ function downloadParseThese(xmlURL, cb) {
 
       result.title = $('dc\\:title').text();
 
-      [].slice.call($('dcterms\\:abstract')).forEach(function (n) {
-      	if (n.children.length > 0)
-        	result.abstract[n.attribs['xml:lang'].trim() !== '' ? n.attribs['xml:lang'] : 'fr'] = n.children[0].data;
+      $('marcrel\\:dgg').each(function (i,n) {
+          var orga = $(this).children('foaf\\:Organization').first()
+          var id = orga.attr('rdf:about').match(/http:\/\/www\.idref\.fr\/(.*?)\/id\/?/);
+          id = id ? id[1] : '';
+          if (orga.children.length > 0){
+             var name = orga.children().first().text();
+          }
+          if (i === 0){
+            // assuming établissement de soutenance
+            result.soutenance_id = id;
+            result.soutenvance_name = name;
+          }
+          if (i === 1){
+            // assuming école doctorale
+            result.ecole_doctorale_id = id;
+            result.ecole_doctorale_name = name;  
+          }
+        });
+
+      $('dcterms\\:abstract').each(function (i,n) {
+      	if ($(this).children.length > 0){
+          var lang = $(this).attr('xml:lang')
+        	result.abstract[lang.trim() !== '' ? lang : 'fr'] = $(this).children[0].data;
+        }
       });
 
-      result.subject = [].slice.call($('dc\\:subject')).map(function (s) {
+      result.contributor_ids = []
+      result.contributor_names = []
+  
+      $('dcterms\\:contributor').each(function (i,n) {
+        var orga = $(this).children('foaf\\:Organization').first()
+        var id = orga.attr('rdf:about').match(/http:\/\/www\.idref\.fr\/(.*?)\/id\/?/);
+        id = id ? id[1] : '';
+        if (orga.children.length > 0){
+           var name = orga.children().first().text();
+           result.contributor_names.push(name)
+           result.contributor_ids.push(id)
+        }
+
+      });
+
+      result.subject = Array($('dc\\:subject').map(function (i,s) {
         return $(s).text().trim()
-      }).filter(e => e)
+      })).filter(e => e)
 
       if (cb) return cb(null, result);
     }
