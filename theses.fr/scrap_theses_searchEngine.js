@@ -28,7 +28,7 @@ function downloadAllDocuments(url, query, documents, cb){
 	    		//done
 	    		cb(documents);
       	} else {
-	        console.log('error: '+ response.statusCode)
+	        console.log(err, response)
 	        console.log(data)
       	}
 		
@@ -42,17 +42,17 @@ async.waterfall([
 		// http://www.theses.fr/?q=soviet;&format=json
 		// http://www.theses.fr/?q=urss;&format=json
 
-		if (EXTRACT === "search"){
+		if (EXTRACT === "searchEngine"){
 			const keywords = ['russe', 'russie','soviet', 'urss']
-			next(keywords.map(
+			next(null, keywords.map(
 			 	keyword => `http://www.theses.fr/?q=&zone1=titreRAs&val1=${keyword}&op1=OR&zone2=motCleRAs&val2=${keyword}&op2=OR&zone3=abstracts&val3=${keyword}&format=json`
-		 	))
+		 	));
 		}
 		// List thesis from IDs list
 		// load ids list
 		else
 			if (EXTRACT === "ids"){
-				fs.readFile('all_theses.list', 'utf8', 
+				fs.readFile('all_theses_ids.csv', 'utf8', 
 					(err,data) => next(null,data.split('\n').map(id => `http://www.theses.fr/?q=${id}&format=json`)));
 			}
 	},
