@@ -100,16 +100,40 @@ class MetadonneesNotice():
 						self.subjects_links.append('Pas de lien')
 					else:
 						self.subjects_links.append('http://catalogue.bnf.fr'+link['href'])
+	def parse_title(self, soup):
+		found = soup.find('meta', attrs={'name':'DC.title'})
+		if (found is None):
+			found = soup.find('div', attrs={'id':'titre'})
+			if (found is None):
+				self.title_raw = 'Titre absent'
+				self.title_clean = 'Titre absent'
+			else:
+				span_list = found.find_all('span', attrs={'class':''})
+				if (span_list == []):
+					self.title_raw = 'Titre absent'
+				else:
+					for j in span_list:
+						line = ""
+						for k in j.stripped_strings:
+							if ('Voir les notices' not in k):
+								line+=k
+						self.title_raw += line#TODO: check that
+		else:
+			self.title_raw = found['content']
+		if (self.title_raw != 'Titre absent'):
+			tab = re.split('(.+?)(?=(?:\. )|(?: ?\/))', self.title_raw)
+			self.title_clean = tab[1]
 
 	def parse(self, soup):
 		self.parse_meta(soup)
 		self.parse_div(soup)
 		self.parse_mixed(soup)
 		self.parse_subjects(soup)
+		self.parse_title(soup)
 		#parse_contributors(soup)
 
 	def dump(self):
-		print(self.data_meta, self.data_div, self.data_mixed, self.subjects, self.subjects_links)
+		print(self.title_clean, self.data_meta, self.data_div, self.data_mixed, self.subjects, self.subjects_links, self.title_raw)
 
 #	def dump_schema(self, soup):
 
