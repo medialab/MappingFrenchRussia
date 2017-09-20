@@ -4,6 +4,7 @@ class MetadonneesNotice():
 	def __init__(self, ark_notice):
 	# Data
 		self.ark = ark_notice
+		self.sep = ' // '
 		self.header_meta = ['Date', 'Langue']
 		self.anchor_meta = ['DC.date', 'DC.language']
 		self.data_meta = ['', '']
@@ -77,15 +78,38 @@ class MetadonneesNotice():
 			else:
 				self.data_mixed[i] = found['content']
 
+	def parse_subjects(self, soup):
+		found = soup.find('div', attrs={'id':'sujet'})
+		if (found is None):
+			self.subjects.append('Sujets absent.e')
+			self.subjects_links.append('Sujets absent.e')
+		else:
+			span_list = found.find_all('span', attrs={'class':''})
+			if (span_list == []):
+				self.subjects.append('Sujets absent.e')
+				self.subjects_links.append('Sujets absent.e')
+			else:
+				for j in span_list:
+					line = ""
+					for k in j.stripped_strings:
+						if ('Voir les notices' not in k):
+							line+=k
+					self.subjects.append(line)#TODO: check that
+					link = j.find('a', attrs={'class':'pictos'})
+					if (link is None):
+						self.subjects_links.append('Pas de lien')
+					else:
+						self.subjects_links.append('http://catalogue.bnf.fr'+link['href'])
+
 	def parse(self, soup):
 		self.parse_meta(soup)
 		self.parse_div(soup)
 		self.parse_mixed(soup)
-		#parse_subjects(soup)
+		self.parse_subjects(soup)
 		#parse_contributors(soup)
 
 	def dump(self):
-		print(self.data_meta, self.data_div, self.data_mixed)
+		print(self.data_meta, self.data_div, self.data_mixed, self.subjects, self.subjects_links)
 
 #	def dump_schema(self, soup):
 
