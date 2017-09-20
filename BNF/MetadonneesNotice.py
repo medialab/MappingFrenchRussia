@@ -56,15 +56,36 @@ class MetadonneesNotice():
 								line+=k
 						self.data_div[i] += line#TODO: check that
 
+	def parse_mixed(self, soup):
+		for i, item in enumerate(self.anchor_mixed):
+			found = soup.find('meta', attrs={'name':item[0]})
+			if (found is None):
+				found = soup.find('div', attrs={'id':item[1]})
+				if (found is None):
+					self.data_mixed[i] = self.header_mixed[i] + ' absent.e'
+				else:
+					span_list = found.find_all('span', attrs={'class':''})
+					if (span_list == []):
+						self.data_mixed[i] = self.header_mixed[i] + ' absent.e'
+					else:
+						for j in span_list:
+							line = ""
+							for k in j.stripped_strings:
+								if ('Voir les notices' not in k):
+									line+=k
+							self.data_mixed[i] += line#TODO: check that
+			else:
+				self.data_mixed[i] = found['content']
+
 	def parse(self, soup):
 		self.parse_meta(soup)
 		self.parse_div(soup)
-		#parse_mixed(soup)
+		self.parse_mixed(soup)
 		#parse_subjects(soup)
 		#parse_contributors(soup)
 
 	def dump(self):
-		print(self.data_meta, self.data_div)
+		print(self.data_meta, self.data_div, self.data_mixed)
 
 #	def dump_schema(self, soup):
 
