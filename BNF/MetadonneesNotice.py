@@ -18,7 +18,7 @@ class MetadonneesNotice():
 		self.title_raw = ""
 		self.subjects = []
 		self.subjects_links = []
-		self.contributors_done = set({})
+		self.contributors_classified = set({})
 		self.contributors = [ (('auteur',), 'Auteur', [], [], [], []),
 		(('traducteur',), 'Traducteur', [], [], [], []),
 		(('editeur scientifique', 'éditeur scientifique'), 'Éditeur scientifique', [], [], [], []),
@@ -28,7 +28,7 @@ class MetadonneesNotice():
 		(('collaborateur',), 'Collaborateur', [], [], [], []),
 		(('redacteur', 'rédacteur'), 'Rédacteur', [], [], [], []),
 		(('adaptateur',), 'Adaptateur', [], [], [], []),
-		(('rôle indéterminé', 'fonction inconnue'), 'Rôle indéterminé', [], [], [], [])
+		(('rôle indéterminé', 'fonction inconnue', ''), 'Rôle indéterminé', [], [], [], [])#TODO: make a better thing ?
 	#[...]
 		]
 
@@ -124,16 +124,56 @@ class MetadonneesNotice():
 			tab = re.split('(.+?)(?=(?:\. )|(?: ?\/))', self.title_raw)
 			self.title_clean = tab[1]
 
+	def seek_role(self, span, default):
+		line = ""
+		for k in span.stripped_strings:
+			if ('Voir les notices' not in k):
+				line+=k
+		tab = re.split('', line)
+		name = tab[1] #ou approchant
+		birth = tab[2]
+		death = tab[3]
+		role = default + tab[-1] #ou approchant
+		for i, item in enumerate(self.contributors):
+			for j in item[0]:
+				if (name not in item[2] and j in role.lower()):
+					contributors_classified.add(name)
+					item[2].append(name)
+					item[3].append(birth)
+					item[4].append(death)
+					#Link searchin'
+					link = span.find('a', attrs={'class':'pictos'})
+					if (link is None):
+						item[5].append('Pas de lien')
+					else:
+						item[5].append('http://catalogue.bnf.fr'+link['href'])
+		for i, item in enumerate(self.contributors[-1][2]):#== on garbage TODO: make it better ?
+			if (item in contributors_classified):#Classified elsewhere: remove from garbage
+				self.contributors[-1][2].pop(i)
+				self.contributors[-1][3].pop(i)
+				self.contributors[-1][4].pop(i)
+				self.contributors[-1][5].pop(i)
+
+	def parse_contributors(self, soup):
+		anchors = [['auteur', 'Auteur'],['autreAuteur', '']]
+		for i in anchors:
+			found = soup.find('div', attrs={'id':i[0]})
+			if (found is not None):
+				span_list = found.find_all('span', attrs={'class':''})
+				if (span_list != []):
+					for j in span_list:
+						self.seek_role(j, i[1])
+
 	def parse(self, soup):
 		self.parse_meta(soup)
 		self.parse_div(soup)
 		self.parse_mixed(soup)
 		self.parse_subjects(soup)
 		self.parse_title(soup)
-		#parse_contributors(soup)
+		self.parse_contributors(soup)
 
 	def dump(self):
-		print(self.title_clean, self.data_meta, self.data_div, self.data_mixed, self.subjects, self.subjects_links, self.title_raw)
+		print(self.title_clean, self.data_meta, self.data_div, self.data_mixed, self.subjects, self.subjects_links, self.title_raw, self.contributors)
 
 #	def dump_schema(self, soup):
 
