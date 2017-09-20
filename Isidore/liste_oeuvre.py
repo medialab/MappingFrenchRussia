@@ -6,10 +6,12 @@ if (len(sys.argv) == 1):
 	print ("Usage:")
 	print(sys.argv[0], "[sourcelistfile]")
 else:
+	#csv = ""
 	sparql = SPARQLWrapper("http://api.rechercheisidore.fr/sparql")
 	f = open(sys.argv[1], 'r')
-	for source in f:
+	for nbligne, source in enumerate(f):
 		#print(i)
+		print('\r' + str(nbligne), end='')
 		query = """
 PREFIX dcterms: <http://purl.org/dc/terms/>
 PREFIX dces: <http://purl.org/dc/elements/1.1/>
@@ -46,9 +48,9 @@ select distinct ?titre ?date ?id ?nomauteur ?nomediteur ?sujet ?resume where {
 					data[i].add(result[var]['value'])
 			#print()
 		csv = ""
-		for i, headers in enumerate(results['head']['vars']):
-			csv += headers + ','
-		csv = csv[0:-1]+'\n'
+		#for i, headers in enumerate(results['head']['vars']):
+		#	csv += headers + ','
+		#csv = csv[0:-1]+'\n'
 		for i in data:
 			csv+='§'
 			for num, j in enumerate(i):
@@ -57,6 +59,14 @@ select distinct ?titre ?date ?id ?nomauteur ?nomediteur ?sujet ?resume where {
 				csv += j
 			csv += '§,'
 		csv = csv[0:-1]+'\n'
-		print(csv)
-		
+		g = open(sys.argv[1].split('.')[0]+'.csv', 'a')
+		g.write(csv)
+		g.close()
+		#print(csv)
+
 	f.close()
+	#f.open(sys.argv[1].split('.')[0]+'.csv', 'w')
+	#f.write(csv)
+	#f.close()
+	print("Written")
+
