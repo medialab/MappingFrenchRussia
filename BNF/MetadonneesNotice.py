@@ -5,6 +5,8 @@ class MetadonneesNotice():
 	# Data
 		self.ark = ark_notice
 		self.sep = ' // '
+		self.csv_string_delim = '§'
+		self.csv_field_delim = ','
 		self.header_meta = ['Date', 'Langue']
 		self.anchor_meta = ['DC.date', 'DC.language']
 		self.data_meta = ['', '']
@@ -131,8 +133,8 @@ class MetadonneesNotice():
 				line+=k
 		tab = re.split('(.+?)(?=(?: \()|(?:\. ))(?: \(([0-9\.\?]{3,5}-[0-9\.\?]{3,5})?[ ;,]{0,3}(.*?)\))?(?:\. (.*))?', line)#(.+?)(?=(?: \()|(?:\. ))(?: \(([0-9\.\?]{3,5}-[0-9\.\?]{3,5})?[ ;,]{0,3}(.+?)\))?(?:\. (.*))? reste les roles
 		name = tab[1] #ou approchant
-		birth = ''
-		death = ''
+		birth = 'Pas de naissance'
+		death = 'Pas de mort'
 		if (tab[2] is not None):
 			date = tab[2].split('-')
 			birth = date[0]
@@ -184,5 +186,41 @@ class MetadonneesNotice():
 		print(self.title_clean, self.data_meta, self.data_div, self.data_mixed, self.subjects, self.subjects_links, self.title_raw, self.contributors)
 
 #	def dump_schema(self, soup):
+#		for i in contributors:
+#			csv += self.csv_field_delim+self.csv_string_delim+i[1]+self.csv_string_delim+self.csv_field_delim\
+#			+self.csv_string_delim+'Naissance '+i[1]+self.csv_string_delim+self.csv_field_delim\
+#			+self.csv_string_delim+'Mort '+i[1]+self.csv_string_delim+self.csv_field_delim\
+#			+self.csv_string_delim+'Lien '+i[1]+self.csv_string_delim
 
-#	def to_csv(self, soup)
+
+	def to_csv(self):
+		#Ark
+		csv = self.ark
+		#Contrib
+		for i in self.contributors:
+			for field in range(len(i)-2):
+				csv += self.csv_field_delim
+				if (i[field+2] != []):
+					csv += self.csv_string_delim
+					csv += i[field+2][0]
+					for j in range(len(i[field+2])-1):
+						csv+=self.sep+i[field+2][j+1]
+					csv += self.csv_string_delim
+		#Subjects
+		for i in [self.subjects, self.subjects_links]:
+			csv += self.csv_field_delim
+			if (i != []):
+				csv += self.csv_string_delim+i[0]
+				for j in range(len(i)-1):
+					csv += self.sep+i[j+1]
+				csv += self.csv_string_delim
+		#Titles
+		csv += self.csv_field_delim+self.csv_string_delim+self.title_clean+self.csv_string_delim+self.csv_field_delim+self.csv_string_delim+self.title_raw+self.csv_string_delim
+		#Mixed - Meta - Div
+		for i in [self.data_mixed, self.data_meta, self.data_div]:
+			for j in i:
+				csv += self.csv_field_delim
+				if (j != ''):
+					csv += self.csv_string_delim + j + self.csv_string_delim
+		csv+='\n'
+		return csv
