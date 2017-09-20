@@ -185,12 +185,25 @@ class MetadonneesNotice():
 	def dump(self):
 		print(self.title_clean, self.data_meta, self.data_div, self.data_mixed, self.subjects, self.subjects_links, self.title_raw, self.contributors)
 
-#	def dump_schema(self, soup):
-#		for i in contributors:
-#			csv += self.csv_field_delim+self.csv_string_delim+i[1]+self.csv_string_delim+self.csv_field_delim\
-#			+self.csv_string_delim+'Naissance '+i[1]+self.csv_string_delim+self.csv_field_delim\
-#			+self.csv_string_delim+'Mort '+i[1]+self.csv_string_delim+self.csv_field_delim\
-#			+self.csv_string_delim+'Lien '+i[1]+self.csv_string_delim
+	def dump_schema(self):
+		#Ark
+		csv = 'Ark'
+		#Contrib
+		for i in self.contributors:
+			csv += self.csv_field_delim+self.csv_string_delim+i[1]+self.csv_string_delim+self.csv_field_delim\
+			+self.csv_string_delim+'Naissance '+i[1]+self.csv_string_delim+self.csv_field_delim\
+			+self.csv_string_delim+'Mort '+i[1]+self.csv_string_delim+self.csv_field_delim\
+			+self.csv_string_delim+'Lien '+i[1]+self.csv_string_delim
+		#Subjects
+		csv += self.csv_field_delim+'Sujets'+self.csv_field_delim+'Lien sujets'
+		#Titles
+		csv += self.csv_field_delim+'Titre nettoyé'+self.csv_field_delim+'Titre brut'
+		#Mixed - Meta - Div
+		for i in [self.header_mixed, self.header_meta, self.header_div]:
+			for j in i:
+				csv += self.csv_field_delim + j
+		csv += '\n'
+		return csv
 
 
 	def to_csv(self):
