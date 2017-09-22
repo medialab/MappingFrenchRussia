@@ -2,7 +2,7 @@
 from SPARQLWrapper import SPARQLWrapper, JSON
 import sys
 
-num_start = 4780
+num_start = 8025
 
 if (len(sys.argv) == 1):
 	print ("Usage:")
@@ -38,17 +38,18 @@ select distinct ?titre ?date ?id ?nomauteur ?nomediteur ?nomcontrib ?sujet ?resu
 			data = []
 			sparql.setQuery(query)
 			sparql.setReturnFormat(JSON)
-			try:
-				output = sparql.query()
-			except urllib.error.HTTPError as e:
-				if (e.code != 503):
-					raise e
-				while (e.code == 503):
-					try:
-						output = sparql.query()
-					except urllib.error.HTTPError as e:
-						if (e.code != 503):
-							raise e
+			output = sparql.query()
+		#	try:
+		#		output = sparql.query()
+		#	except urllib.error.HTTPError as e:
+		#		if (e.code != 503):
+		#			raise e
+		#		while (e.code == 503):
+		#			try:
+		#				output = sparql.query()
+		#			except urllib.error.HTTPError as e:
+		#				if (e.code != 503):
+		#					raise e
 					
 			results = output.convert()
 			#print(results)
