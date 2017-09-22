@@ -37,7 +37,7 @@ class MetadonneesNotice():
 	def parse_meta(self, soup):
 		for i, item in enumerate(self.anchor_meta):
 			found = soup.find('meta', attrs={'name':item})
-			if (found is None):
+			if found is None:
 				self.data_meta[i] = self.header_meta[i] + ' absent.e'
 			else:
 				self.data_meta[i] = found['content']
@@ -45,36 +45,36 @@ class MetadonneesNotice():
 	def parse_div(self, soup):
 		for i, item in enumerate(self.anchor_div):
 			found = soup.find('div', attrs={'id':item})
-			if (found is None):
+			if found is None:
 				self.data_div[i] = self.header_div[i] + ' absent.e'
 			else:
 				span_list = found.find_all('span', attrs={'class':''})
-				if (span_list == []):
+				if span_list == []:
 					self.data_div[i] = self.header_div[i] + ' absent.e'
 				else:
 					for j in span_list:
 						line = ""
 						for k in j.stripped_strings:
-							if ('Voir les notices' not in k):
+							if 'Voir les notices' not in k:
 								line+=k
 						self.data_div[i] += line#TODO: check that
 
 	def parse_mixed(self, soup):
 		for i, item in enumerate(self.anchor_mixed):
 			found = soup.find('meta', attrs={'name':item[0]})
-			if (found is None):
+			if found is None:
 				found = soup.find('div', attrs={'id':item[1]})
-				if (found is None):
+				if found is None:
 					self.data_mixed[i] = self.header_mixed[i] + ' absent.e'
 				else:
 					span_list = found.find_all('span', attrs={'class':''})
-					if (span_list == []):
+					if span_list == []:
 						self.data_mixed[i] = self.header_mixed[i] + ' absent.e'
 					else:
 						for j in span_list:
 							line = ""
 							for k in j.stripped_strings:
-								if ('Voir les notices' not in k):
+								if 'Voir les notices' not in k:
 									line+=k
 							self.data_mixed[i] += line#TODO: check that
 			else:
@@ -82,83 +82,83 @@ class MetadonneesNotice():
 
 	def parse_subjects(self, soup):
 		found = soup.find('div', attrs={'id':'sujet'})
-		if (found is None):
+		if found is None:
 			self.subjects.append('Sujets absent.e')
 			self.subjects_links.append('Sujets absent.e')
 		else:
 			span_list = found.find_all('span', attrs={'class':''})
-			if (span_list == []):
+			if span_list == []:
 				self.subjects.append('Sujets absent.e')
 				self.subjects_links.append('Sujets absent.e')
 			else:
 				for j in span_list:
 					line = ""
 					for k in j.stripped_strings:
-						if ('Voir les notices' not in k):
+						if 'Voir les notices' not in k:
 							line+=k
 					self.subjects.append(line)#TODO: check that
 					link = j.find('a', attrs={'class':'pictos'})
-					if (link is None):
+					if link is None:
 						self.subjects_links.append('Pas de lien')
 					else:
 						self.subjects_links.append('http://catalogue.bnf.fr'+link['href'])
 	def parse_title(self, soup):
 		found = soup.find('meta', attrs={'name':'DC.title'})
-		if (found is None):
+		if found is None:
 			found = soup.find('div', attrs={'id':'titre'})
-			if (found is None):
+			if found is None:
 				self.title_raw = 'Titre absent'
 				self.title_clean = 'Titre absent'
 			else:
 				span_list = found.find_all('span', attrs={'class':''})
-				if (span_list == []):
+				if span_list == []:
 					self.title_raw = 'Titre absent'
 				else:
 					for j in span_list:
 						line = ""
 						for k in j.stripped_strings:
-							if ('Voir les notices' not in k):
+							if 'Voir les notices' not in k:
 								line+=k
 						self.title_raw += line#TODO: check that
 		else:
 			self.title_raw = found['content']
-		if (self.title_raw != 'Titre absent'):
+		if self.title_raw != 'Titre absent':
 			tab = re.split('(.+?)(?=(?:\. )|(?: ?\/))', self.title_raw)
 			self.title_clean = tab[1]
 
 	def seek_role(self, span, default):
 		line = ""
 		for k in span.stripped_strings:
-			if ('Voir les notices' not in k):
+			if 'Voir les notices' not in k:
 				line+=k
 		tab = re.split('(.+?)(?=(?: \()|(?:\. ))(?: \(([0-9\.\?]{3,5}-[0-9\.\?]{3,5})?[ ;,]{0,3}(.*?)\))?(?:\. (.*))?', line)#(.+?)(?=(?: \()|(?:\. ))(?: \(([0-9\.\?]{3,5}-[0-9\.\?]{3,5})?[ ;,]{0,3}(.+?)\))?(?:\. (.*))? reste les roles
 		name = tab[1] #ou approchant
 		birth = 'Pas de naissance'
 		death = 'Pas de mort'
-		if (tab[2] is not None):
+		if tab[2] is not None:
 			date = tab[2].split('-')
 			birth = date[0]
 			death = date[1]
 		role = default
-		if (tab[3] is not None):
+		if tab[3] is not None:
 			role += tab[3]
-		if (tab[4] is not None):
+		if tab[4] is not None:
 			role += tab[4]
 		for i, item in enumerate(self.contributors):
 			for j in item[0]:
-				if (name not in item[2] and j in role.lower()):
+				if name not in item[2] and j in role.lower():
 					self.contributors_classified.add(name)
 					item[2].append(name)
 					item[3].append(birth)
 					item[4].append(death)
 					#Link searchin'
 					link = span.find('a', attrs={'class':'pictos'})
-					if (link is None):
+					if link is None:
 						item[5].append('Pas de lien')
 					else:
 						item[5].append('http://catalogue.bnf.fr'+link['href'])
 		for i, item in enumerate(self.contributors[-1][2]):#== on garbage TODO: make it better ?
-			if (item in self.contributors_classified):#Classified elsewhere: remove from garbage
+			if item in self.contributors_classified:#Classified elsewhere: remove from garbage
 				self.contributors[-1][2].pop(i)
 				self.contributors[-1][3].pop(i)
 				self.contributors[-1][4].pop(i)
@@ -168,9 +168,9 @@ class MetadonneesNotice():
 		anchors = [['auteur', 'Auteur'],['autreAuteur', '']]
 		for i in anchors:
 			found = soup.find('div', attrs={'id':i[0]})
-			if (found is not None):
+			if found is not None:
 				span_list = found.find_all('span', attrs={'class':''})
-				if (span_list != []):
+				if span_list != []:
 					for j in span_list:
 						self.seek_role(j, i[1])
 
@@ -213,7 +213,7 @@ class MetadonneesNotice():
 		for i in self.contributors:
 			for field in range(len(i)-2):
 				csv += self.csv_field_delim
-				if (i[field+2] != []):
+				if i[field+2] != []:
 					csv += self.csv_string_delim
 					csv += i[field+2][0]
 					for j in range(len(i[field+2])-1):
@@ -222,7 +222,7 @@ class MetadonneesNotice():
 		#Subjects
 		for i in [self.subjects, self.subjects_links]:
 			csv += self.csv_field_delim
-			if (i != []):
+			if i != []:
 				csv += self.csv_string_delim+i[0]
 				for j in range(len(i)-1):
 					csv += self.sep+i[j+1]
@@ -233,7 +233,7 @@ class MetadonneesNotice():
 		for i in [self.data_mixed, self.data_meta, self.data_div]:
 			for j in i:
 				csv += self.csv_field_delim
-				if (j != ''):
+				if j != '':
 					csv += self.csv_string_delim + j + self.csv_string_delim
 		csv+='\n'
 		return csv
