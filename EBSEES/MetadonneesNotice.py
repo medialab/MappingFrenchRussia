@@ -1,8 +1,8 @@
 class MetadonneesNotice():
 	def __init__(self):
-		self.fields = {'ID':'', 'Title':'', 'Author(s)':'', 'Year':'', 'Pages':'',\
-		'Editor(s)':'', 'Published':'', 'Language(s)':'', 'Publsiher':'', 'Place':'',\
-		'ISBN':'', 'ISSN':'', 'Series':'', 'Subjects':[], 'Note':'', 'Medium':'', 'PURL':''}
+		#self.fields = {'ID':'', 'Title':'', 'Author(s)':'', 'Year':'', 'Pages':'',\
+		#'Editor(s)':'', 'Published':'', 'Language(s)':'', 'Publsiher':'', 'Place':'',\
+		#'ISBN':'', 'ISSN':'', 'Series':'', 'Subjects':[], 'Note':'', 'Medium':'', 'PURL':''}
 		self.fields_header = ['ID', 'Title', 'Author(s)', 'Year', 'Pages',\
 		'Editor(s)', 'Published', 'Language(s)', 'Publsiher', 'Place',\
 		'ISBN', 'ISSN', 'Series', 'Subjects', 'Note', 'Medium', 'PURL']
