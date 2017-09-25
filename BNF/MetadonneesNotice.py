@@ -9,13 +9,16 @@ class MetadonneesNotice():
 		self.csv_field_delim = ','
 		self.header_meta = ['Date', 'Langue']
 		self.anchor_meta = ['DC.date', 'DC.language']
-		self.data_meta = ['', '']
+		#self.data_meta = ['', '']
+		self.data_meta = []
 		self.header_div = ['Notes', 'Résumé']
 		self.anchor_div = ['note', 'resumeCnlj']
-		self.data_div = ['', '']
+		#self.data_div = ['', '']
+		self.data_div = []
 		self.header_mixed = ['Éditeur', 'Description']
 		self.anchor_mixed = [['DC.publisher', 'publication'], ['DC.format', 'descMat']]
-		self.data_mixed = ['', '']
+		#self.data_mixed = ['', '']
+		self.data_mixed = []
 		self.title_clean = ""
 		self.title_raw = ""
 		self.subjects = []
@@ -38,26 +41,31 @@ class MetadonneesNotice():
 		for i, item in enumerate(self.anchor_meta):
 			found = soup.find('meta', attrs={'name':item})
 			if found is None:
-				self.data_meta[i] = self.header_meta[i] + ' absent.e'
+				#self.data_meta[i] = self.header_meta[i] + ' absent.e'
+				self.data_meta.append(self.header_meta[i] + ' absent.e')
 			else:
-				self.data_meta[i] = found['content']
+				#self.data_meta[i] = found['content']
+				self.data_meta.append(found['content'])
 
 	def parse_div(self, soup):
 		for i, item in enumerate(self.anchor_div):
 			found = soup.find('div', attrs={'id':item})
 			if found is None:
-				self.data_div[i] = self.header_div[i] + ' absent.e'
+				#self.data_div[i] = self.header_div[i] + ' absent.e'
+				self.data_div.append(self.header_div[i] + ' absent.e')
 			else:
 				span_list = found.find_all('span', attrs={'class':''})
 				if span_list == []:
-					self.data_div[i] = self.header_div[i] + ' absent.e'
+					#self.data_div[i] = self.header_div[i] + ' absent.e'
+					self.data_div.append(self.header_div[i] + ' absent.e')
 				else:
 					for j in span_list:
 						line = ""
 						for k in j.stripped_strings:
 							if 'Voir les notices' not in k:
 								line+=k
-						self.data_div[i] += line#TODO: check that
+						#self.data_div[i] += line#TODO: check that
+						self.data_div.append(line)
 
 	def parse_mixed(self, soup):
 		for i, item in enumerate(self.anchor_mixed):
@@ -65,20 +73,24 @@ class MetadonneesNotice():
 			if found is None:
 				found = soup.find('div', attrs={'id':item[1]})
 				if found is None:
-					self.data_mixed[i] = self.header_mixed[i] + ' absent.e'
+					#self.data_mixed[i] = self.header_mixed[i] + ' absent.e'
+					self.data_mixed.append(self.header_mixed[i] + ' absent.e')
 				else:
 					span_list = found.find_all('span', attrs={'class':''})
 					if span_list == []:
-						self.data_mixed[i] = self.header_mixed[i] + ' absent.e'
+						#self.data_mixed[i] = self.header_mixed[i] + ' absent.e'
+						self.data_mixed.append(self.header_mixed[i] + ' absent.e')
 					else:
 						for j in span_list:
 							line = ""
 							for k in j.stripped_strings:
 								if 'Voir les notices' not in k:
 									line+=k
-							self.data_mixed[i] += line#TODO: check that
+							#self.data_mixed[i] += line#TODO: check that
+							self.data_mixed.append(line)
 			else:
-				self.data_mixed[i] = found['content']
+				#self.data_mixed[i] = found['content']
+				self.data_mixed.append(found['content'])
 
 	def parse_subjects(self, soup):
 		found = soup.find('div', attrs={'id':'sujet'})
