@@ -4,6 +4,7 @@ const {writeFile} = require('fs');
 const {mapLimit} = require('async');
 
 let theses = require ('./theses_metadata.json');
+//let theses = require ('./test.json');
 
 function downloadParseThese(xmlURL, cb) {
 
@@ -33,7 +34,7 @@ function downloadParseThese(xmlURL, cb) {
           if (i === 0){
             // assuming établissement de soutenance
             result.soutenance_id = id;
-            result.soutenvance_name = name;
+            result.soutenance_name = name;
           }
           if (i === 1){
             // assuming école doctorale
@@ -100,7 +101,7 @@ mapLimit(
     if (err){
       console.log("WARNING", err)
     }
-    writeFile('theses_metadata_abstract_keywords.json',JSON.stringify(data),'utf8');
+    writeFile('theses_metadata_abstract_keywords_25_09.json',JSON.stringify(data),'utf8');
   }
 );
 
