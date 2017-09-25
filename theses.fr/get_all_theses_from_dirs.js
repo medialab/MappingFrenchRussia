@@ -17,26 +17,31 @@ function extract_dirs(err, data){
     return console.log("ERROR parsing csv", err);
   }
   mapLimit(
-    uniqDirs = _.uniq(_(data.map(d => d.directeurThesePpn.split(','))).flatten().value().filter(d => d)),
+    uniqDirs = _.uniq(_(data.map(d => d.directeurThesePPN_correct.split(',').map(e => e.trim()))).flatten().value().filter(d => d)),
     10,
     function(dir, cb) {
+      if (dir.length === 8)
+        dir = '0' + dir
       request('http://www.theses.fr/' + dir + '.xml', function(err, res, body){
         if (err)
           return cb(err);
         const $ = cheerio.load(body, {xmlMode: true});
-        cb(null, $("bibo\\:Thesis").filter(function(i, t){
+        const theses_ids = $("bibo\\:Thesis").filter(function(i, t){
             return $(t).find("marcrel\\:ths foaf\\:Person")
               .toArray()
               .some( e => $(e).attr("rdf:about") === 'http://www.theses.fr/' + dir + '/id');
-          }).map((i, e) => $(e).attr("rdf:about").replace(/^.*\.fr\/(^\/)+\/id/, '$1'))
+          }).map((i, e) => $(e).attr("rdf:about").replace(new RegExp(/http:\/\/www\.theses\.fr\/(.*?)\/id/), '$1'))
           .toArray()
-        );
+        if (theses_ids.length === 0)
+          console.log( dir )
+        cb(null, theses_ids);
       });
     },
     function(err, data){
       if (err){
         console.log("WARNING", err)
       }
+      console.log(data.length,_.countBy(data.map(d => d.length)))
       writeFile('all_theses_ids.csv', _.uniq(_(data).flatten().value()).join('\n'), 'utf8');
     }
   );

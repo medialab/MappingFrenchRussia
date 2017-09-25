@@ -1,6 +1,7 @@
 const request = require('request');
 const cheerio = require('cheerio');
 const {writeFile} = require('fs');
+const {mapLimit} = require('async');
 
 let theses = require ('./theses_metadata.json');
 
@@ -20,8 +21,12 @@ function downloadParseThese(xmlURL, cb) {
 
       $('marcrel\\:dgg').each(function (i,n) {
           var orga = $(this).children('foaf\\:Organization').first()
-          var id = orga.attr('rdf:about').match(/http:\/\/www\.idref\.fr\/(.*?)\/id\/?/);
-          id = id ? id[1] : '';
+
+          var id = '';
+          if (orga.attr('rdf:about')) {
+            id = orga.attr('rdf:about').match(/http:\/\/www\.idref\.fr\/(.*?)\/id\/?/);
+            id = id ? id[1] : '';
+          }
           if (orga.children.length > 0){
              var name = orga.children().first().text();
           }
@@ -38,9 +43,12 @@ function downloadParseThese(xmlURL, cb) {
         });
 
       $('dcterms\\:abstract').each(function (i,n) {
-      	if ($(this).children.length > 0){
+      	if ($(this).children.length > 0 && $(this).children[0] ){
           var lang = $(this).attr('xml:lang')
-        	result.abstract[lang.trim() !== '' ? lang : 'fr'] = $(this).children[0].data;
+          if (lang.trim() === 'en')
+            result.abstract_en = $(this).children[0].data;
+          else
+          	result.abstract_fr = $(this).children[0].data;
         }
       });
 
@@ -49,8 +57,11 @@ function downloadParseThese(xmlURL, cb) {
   
       $('dcterms\\:contributor').each(function (i,n) {
         var orga = $(this).children('foaf\\:Organization').first()
-        var id = orga.attr('rdf:about').match(/http:\/\/www\.idref\.fr\/(.*?)\/id\/?/);
-        id = id ? id[1] : '';
+        var id = '';
+        if (orga.attr('rdf:about')) {
+          id = orga.attr('rdf:about').match(/http:\/\/www\.idref\.fr\/(.*?)\/id\/?/);
+          id = id ? id[1] : '';
+        }
         if (orga.children.length > 0){
            var name = orga.children().first().text();
            result.contributor_names.push(name)
@@ -59,9 +70,11 @@ function downloadParseThese(xmlURL, cb) {
 
       });
 
-      result.subject = Array($('dc\\:subject').map(function (i,s) {
-        return $(s).text().trim()
-      })).filter(e => e)
+      result.subjects = []
+      $('dc\\:subject').each(function (i,s) {
+        result.subjects.push($(s).text().trim())
+      })
+      result.subjects = result.subjects.filter(e => e)
 
       if (cb) return cb(null, result);
     }
@@ -69,24 +82,25 @@ function downloadParseThese(xmlURL, cb) {
   });
 }
 
-function hydrateThesis(thesis, i, cb){
-	console.log(`process these ${i}`)
-	downloadParseThese(`http://www.theses.fr/${thesis[i].num}.xml`, (err,data) =>{
-		if (err){
-			console.log("bou!!!!")
-			return
-		}
-		thesis[i].abstract_fr = data.abstract.fr
-		thesis[i].abstract_en = data.abstract.en
-		thesis[i].subjects = data.subject
-		if (i < thesis.length - 1)
-			setTimeout( () => hydrateThesis(thesis, i+1, cb), 500)
-		else
-			cb(thesis)
-	})
+mapLimit(
+  theses,
+  10,
+  function(these, cb) {
+    console.log(`process these ${these.num}`)
+    downloadParseThese(`http://www.theses.fr/${these.num}.xml`, (err,data) =>{
+      if (err){
+        console.log("bou!!!!")
+        return
+      }
+      setTimeout(_ => cb(null,Object.assign({},these, data)), 500)
+      
+    });
+  },
+  function(err, data){
+    if (err){
+      console.log("WARNING", err)
+    }
+    writeFile('theses_metadata_abstract_keywords.json',JSON.stringify(data),'utf8');
+  }
+);
 
-}
-
-hydrateThesis(theses,0, data => {
-	writeFile('theses_metadata_abstract_keywords.json',JSON.stringify(data),'utf8');
-})
