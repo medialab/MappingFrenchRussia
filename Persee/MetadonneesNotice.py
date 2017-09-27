@@ -1,12 +1,13 @@
 class MetadonneesNotice():
 	def __init__(self):
+		self.valid_anchor = ('russie', 'russe', 'soviét', 'soviet', 'urss', 'u.r.s.s')
 		self.dc_anchor = ('title', 'publisher', 'date', 'language')
 		#self.mods_anchor = ('abstract') # + mods:name(given, family,+ role)
 		self.marc_anchor = (('description', '787', 'gt'),) # marc (tag 787 / code g&t)
 		self.data = {}
 
 	def get_id(self, soup):
-		data['id'] = soup.find('identifier').string
+		self.data['id'] = soup.find('identifier').string
 		
 	def parse_dc(self, soup):
 		for i in self.dc_anchor:
@@ -44,6 +45,41 @@ class MetadonneesNotice():
 				line += field.find('subfield', attrs={'code':j}).string+', '
 			self.data[i[0]] = line[:-2]
 
+	def validate(self):
+		test = False
+		if 'title' not in self.data:#Safety measure, you shouldn't do that anyway
+			return False
+		for i in self.valid_anchor:
+			if i in self.data['title']:
+				test = True
+		return test
+
 	def dump(self):
 		print(self.data)
+
+	def to_csv(self):
+		csv = self.data['id'] + ','
+		if self.data['names'] != []:
+			csv += '"' + self.data['names'][0][1].replace('"', '""') + '. ' + self.data['names'][0][0].replace('"', '""')
+			for j in self.data['names'][0][2]:
+				csv += '-'+ j
+			for i in range(len(self.data['names'])-1):
+				csv += ' // ' + self.data['names'][i+1][1].replace('"', '""') + '. ' + self.data['names'][i+1][0].replace('"', '""')
+				for j in self.data['names'][i+1][2]:
+					csv += '-' + j.replace('"', '""')
+			csv += '"'
+		for i in self.dc_anchor:
+			csv += ','
+			if type(self.data[i]) == list:
+				if i != []:
+					csv += '"' + self.data[i][0].replace('"', '""')
+					for j in range(len(self.data[i])-1):
+						csv += ' // ' + self.data[i][j+1].replace('"', '""')
+					csv += '"'
+			else:
+				csv += '"' + self.data[i].replace('"', '""') + '"'
+		for i in self.marc_anchor:
+			csv += ',"'+self.data[i[0]].replace('"', '""')+'"'
+		#csv += ',"'.data['abstract']+'"'
+		return csv + '\n'
 				
