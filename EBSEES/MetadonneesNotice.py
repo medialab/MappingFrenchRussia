@@ -17,7 +17,7 @@ class MetadonneesNotice():
 		#self.fields_data = []
 		#self.fields_flags = (1, 1, 3, 1, 1, 3, 3, 1, 3, 1, 1, 1, 1, 3, 1, 1, 2) # 1 for label only, 2 for link only, 3 for both
 
-	def parse(self, soup):
+	def parse(self, soup):#TODO: pb PURL (search.htmlall.html)
 		table = soup.find('table', attrs={'class':'table table-bordered table-striped'})
 		if table is not None:
 			tr_list = table.find_all('tr')
@@ -31,7 +31,7 @@ class MetadonneesNotice():
 						if tag.name == u'a' and tag.string is not None:
 							if line != '':
 								line += ', '
-							line += tag.string
+							line += str(tag.string)
 						elif tag.name == u'font':
 				#			print(line)
 							#self.fields_data[self.fields_header.index(i.td.string)].append((line, 'http://ebsees.staatsbibliothek-berlin.de/search.html'+tag.a['href']))
@@ -50,14 +50,14 @@ class MetadonneesNotice():
 					tag = i.td.next_sibling
 					if tag.a is not None:
 						link = 'http://ebsees.staatsbibliothek-berlin.de/search.html'+tag.a['href']
-						text = tag.a.string
+						text = str(tag.a.string)
 						if len(tag.contents) > 1:
-							text += tag.contents[1]
+							text += str(tag.contents[1])
 					elif tag.string is None:#No links, but probably formatting (<br/> or other)
 						for t in tag.stripped_strings:
 							text += t
 					else:
-						text = tag.string
+						text = str(tag.string)
 					#self.fields_data[self.fields_header.index(i.td.string)].append((text, link))
 					self.fields_data[i.td.string][1].append((text, link))
 
@@ -65,34 +65,39 @@ class MetadonneesNotice():
 		print(self.fields_data)
 
 	def to_csv(self):
-		csv = ''
+		#csv = ''
+		csv = self.fields_data[self.fields_header[0]][1][0][0]
+		#print(type(csv))
 		#for i, value in enumerate(self.fields_data):
-		for field in self.fields_header:
-			print(field)
+		#for field in self.fields_header:
+		for i in range(len(self.fields_header)-1):
+			#print(field)
 			#print(i, value)
 			#if value != []:
-			if self.fields_data[field][1] != []:
-				csv += '§'
+			if self.fields_data[self.fields_header[i+1]][1] != []:
 				#if self.fields_flags[i]&1:
-				if self.fields_data[field][0] & 1:
+				if self.fields_data[self.fields_header[i+1]][0] & 1:
 					#csv += value[0][0]
 					#for j in range(len(value)-1):
 					#	csv += ' // ' + value[j+1][0]
-					csv += self.fields_data[field][1][0][0]
-					for j in range(len(self.fields_data[field][1])-1):
-						csv += ' // ' + self.fields_data[field][1][j+1][0]
-					csv += '§,'
+					csv += ',"'+self.fields_data[self.fields_header[i+1]][1][0][0].replace('"', '\\"')
+					for j in range(len(self.fields_data[self.fields_header[i+1]][1])-1):
+						csv += ' // ' + self.fields_data[self.fields_header[i+1]][1][j+1][0].replace('"', '\\"')
+					csv += '"'
 				#if self.fields_flags[i]&2:
-				if self.fields_data[field][0] & 2:
+				if self.fields_data[self.fields_header[i+1]][0] & 2:
 					#csv += value[0][1]
 					#for j in range(len(value)-1):
 					#	csv += ' // ' + value[j+1][1]
-					csv += self.fields_data[field][1][0][1]
-					for j in range(len(self.fields_data[field][1])-1):
-						csv += ' // ' + self.fields_data[field][1][j+1][1]
-					csv += '§,'
+					csv += ',"'+self.fields_data[self.fields_header[i+1]][1][0][1].replace('"', '\\"')
+					for j in range(len(self.fields_data[self.fields_header[i+1]][1])-1):
+						csv += ' // ' + self.fields_data[self.fields_header[i+1]][1][j+1][1].replace('"', '\\"')
+					csv += '"'
 			else:
-				csv += ','
-		return csv[:-1]+'\n'
+				if self.fields_data[self.fields_header[i+1]][0] & 1:
+					csv += ','
+				if self.fields_data[self.fields_header[i+1]][0] & 2:
+					csv += ','
+		return csv+'\n'
 			
 		
