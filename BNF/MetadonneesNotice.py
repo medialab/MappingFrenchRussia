@@ -1,5 +1,10 @@
 import re
 
+#class MetadonneesNotice
+# Goal: Parse a BNF notice (from catalogue.bnf.fr)
+# Usage: Give a BeautifulSoup tree (or similar tree) to parse method
+
+
 class MetadonneesNotice():
 	def __init__(self, ark_notice):
 	# Data
