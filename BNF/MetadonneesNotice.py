@@ -144,18 +144,21 @@ class MetadonneesNotice():
 			if 'Voir les notices' not in k:
 				line+=k
 		tab = re.split('(.+?)(?=(?: \()|(?:\. ))(?: \(([0-9\.\?]{3,5}-[0-9\.\?]{3,5})?[ ;,]{0,3}(.*?)\))?(?:\. (.*))?', line)#(.+?)(?=(?: \()|(?:\. ))(?: \(([0-9\.\?]{3,5}-[0-9\.\?]{3,5})?[ ;,]{0,3}(.+?)\))?(?:\. (.*))? reste les roles
-		name = tab[1] #ou approchant
 		birth = 'Pas de naissance'
 		death = 'Pas de mort'
-		if tab[2] is not None:
-			date = tab[2].split('-')
-			birth = date[0]
-			death = date[1]
 		role = default
-		if tab[3] is not None:
-			role += tab[3]
-		if tab[4] is not None:
-			role += tab[4]
+		if len(tab) == 1:
+			name = tab[0]
+		else:
+			name = tab[1] #ou approchant
+			if tab[2] is not None:
+				date = tab[2].split('-')
+				birth = date[0]
+				death = date[1]
+			if tab[3] is not None:
+				role += tab[3]
+			if tab[4] is not None:
+				role += tab[4]
 		for i, item in enumerate(self.contributors):
 			for j in item[0]:
 				if name not in item[2] and j in role.lower():
