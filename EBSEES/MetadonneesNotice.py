@@ -1,4 +1,10 @@
 #coding=utf-8
+
+#class MetadonneesNotice
+# Goal: Parse a EBSEES notice
+# Usage: Give a BeautifulSoup tree (or similar tree) to parse method
+
+
 class MetadonneesNotice():
 	def __init__(self):
 		#self.fields = {'ID':'', 'Title':'', 'Author(s)':'', 'Year':'', 'Pages':'',\
