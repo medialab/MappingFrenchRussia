@@ -36,6 +36,9 @@ class MetadonneesNotice():
 			for j in roles:
 				role.append(j.find('roleTerm').string)
 			self.data['names'].append((givenName, familyName, role))
+		abst = soup.find('abstract')
+		if abst is not None and abst.string is not None:
+			self.data['abstract'] = abst.string
 			
 	def parse_marc(self, soup):
 		for i in self.marc_anchor:
@@ -47,10 +50,10 @@ class MetadonneesNotice():
 
 	def validate(self):
 		test = False
-		if 'title' not in self.data:#Safety measure, you shouldn't do that anyway
+		if 'title' not in self.data and 'abstract' not in self.data:#Safety measure, you shouldn't do that anyway
 			return False
 		for i in self.valid_anchor:
-			if i in self.data['title']:
+			if i in self.data['title'] or ('abstract' in self.data and i in self.data['abstract']):
 				test = True
 		return test
 
@@ -80,6 +83,8 @@ class MetadonneesNotice():
 				csv += '"' + self.data[i].replace('"', '""') + '"'
 		for i in self.marc_anchor:
 			csv += ',"'+self.data[i[0]].replace('"', '""')+'"'
-		#csv += ',"'.data['abstract']+'"'
+		csv += ','
+		if 'abstract' in self.data:
+			csv += '"'+self.data['abstract'].replace('"', '""')+'"'
 		return csv + '\n'
 				

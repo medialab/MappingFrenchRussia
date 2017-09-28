@@ -5,6 +5,10 @@ import sys
 sys.path.append('../../../')
 from MetadonneesNotice import *
 
+class CountObject():
+		def __init__(self):
+			self.num = 0
+
 class PerseeSpider(scrapy.Spider):
 	name = "Persee"
 
@@ -16,15 +20,24 @@ class PerseeSpider(scrapy.Spider):
 		#	request = scrapy.Request(url=url_header+str(i+1), callback=self.parse_list)
 			#request.meta['batch'] = i+1
 		#	yield request
-		yield scrapy.Request(url=start_url, callback=self.parse_sets)
+		request = scrapy.Request(url=start_url, callback=self.parse_sets)
+		obj = CountObject()
+		request.meta['num'] = obj
+		yield request
 
 	def parse_sets(self, response):
 		url_header = 'http://oai.persee.fr/oai?verb=ListIdentifiers&metadataPrefix=oai_dc&set='
 		soup = BeautifulSoup(response.body, "lxml-xml")
 		set_list = soup.find_all('set')
-		for i in set_list:
-			setSpec = i.find('setSpec').string
-			yield scrapy.Request(url=url_header+setSpec, callback=self.parse_subsets)
+		setSpec = set_list[0].find('setSpec').string
+		request = scrapy.Request(url=url_header+setSpec, callback=self.parse_subsets)
+		request.meta['num'] = response.meta['num']
+		yield request
+		for i in range(len(set_list)-1):
+			setSpec = set_list[i+1].find('setSpec').string
+			request = scrapy.Request(url=url_header+setSpec, callback=self.parse_notice_list)
+			request.meta['num'] = response.meta['num']
+			yield request
 
 	def parse_subsets(self, response):
 		url_header = 'http://oai.persee.fr/oai?verb=ListIdentifiers&metadataPrefix=oai_dc&set='
@@ -33,10 +46,14 @@ class PerseeSpider(scrapy.Spider):
 		subset_list = soup.find_all('header')
 		for i in subset_list:
 			subsetSpec = i.find_all('setSpec')[1].string
-			yield scrapy.Request(url=url_header+subsetSpec, callback=self.parse_notice_list)
+			request = scrapy.Request(url=url_header+subsetSpec, callback=self.parse_notice_list)
+			request.meta['num'] = response.meta['num']
+			yield request
 		resume_tail = soup.find('resumptionToken').string
 		if (resume_tail is not None):
-			yield scrapy.Request(url=resume_header+resume_tail, callback=self.parse_subsets)
+			request = scrapy.Request(url=resume_header+resume_tail, callback=self.parse_subsets)
+			request.meta['num'] = response.meta['num']
+			yield request
 
 	def parse_notice_list(self, response):
 		url_header = 'http://oai.persee.fr/oai?verb=GetRecord&metadataPrefix=oai_dc&identifier='
@@ -52,32 +69,37 @@ class PerseeSpider(scrapy.Spider):
 				request = scrapy.Request(url=url_header+notice_id, callback=self.parse_notice_dc)
 				request.meta['noticeObject'] = notice
 				request.meta['noticeId'] = notice_id
+				request.meta['num'] = response.meta['num']
 				yield request
 		resume_tail = soup.find('resumptionToken').string
 		if (resume_tail is not None):
-			yield scrapy.Request(url=resume_header+resume_tail, callback=self.parse_notice_list)
+			request = scrapy.Request(url=resume_header+resume_tail, callback=self.parse_notice_list)
+			request.meta['num'] = response.meta['num']
+			yield request
 
 	def parse_notice_dc(self, response):
+		response.meta['num'].num += 1
+		print(response.meta['num'].num)
 		url_header = 'http://oai.persee.fr/oai?verb=GetRecord&metadataPrefix=mods&identifier='
 		notice = response.meta['noticeObject']
 		soup = BeautifulSoup(response.body, "lxml-xml")
 		notice.get_id(soup)
 		notice.parse_dc(soup)
-		if notice.validate():
-			request = scrapy.Request(url=url_header+response.meta['noticeId'], callback=self.parse_notice_mods)
-			request.meta['noticeObject'] = notice
-			request.meta['noticeId'] = response.meta['noticeId']
-			yield request
+		request = scrapy.Request(url=url_header+response.meta['noticeId'], callback=self.parse_notice_mods)
+		request.meta['noticeObject'] = notice
+		request.meta['noticeId'] = response.meta['noticeId']
+		yield request
 
 	def parse_notice_mods(self, response):
 		url_header = 'http://oai.persee.fr/oai?verb=GetRecord&metadataPrefix=marc&identifier='
 		notice = response.meta['noticeObject']
 		soup = BeautifulSoup(response.body, "lxml-xml")
 		notice.parse_mods(soup)
-		request = scrapy.Request(url=url_header+response.meta['noticeId'], callback=self.parse_notice_marc)
-		request.meta['noticeObject'] = notice
-		request.meta['noticeId'] = response.meta['noticeId']
-		yield request
+		if notice.validate():
+			request = scrapy.Request(url=url_header+response.meta['noticeId'], callback=self.parse_notice_marc)
+			request.meta['noticeObject'] = notice
+			request.meta['noticeId'] = response.meta['noticeId']
+			yield request
 
 	def parse_notice_marc(self, response):
 		notice = response.meta['noticeObject']
