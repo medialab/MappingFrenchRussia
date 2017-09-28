@@ -2,7 +2,7 @@
 from SPARQLWrapper import SPARQLWrapper, JSON
 import sys
 
-num_start = 14922 #Last one is only Bibliographical ressource => garbage
+num_start = 6781 #Last one is only Bibliographical ressource => garbage
 
 if len(sys.argv) == 1:
 	print ("Usage:")
@@ -58,8 +58,8 @@ select distinct ?titre ?date ?id ?nomauteur ?nomediteur ?nomcontrib ?sujet ?resu
 		for result in results["results"]["bindings"]:
 			for i, var in enumerate(results['head']['vars']):
 				#print(result[var]['value'], end=" ")
-				if var in result:#OPTIONAL clauses make this check mandatory
-						print(var)
+				if var in result:#Sparql OPTIONAL clauses make this check mandatory
+					#print(var)
 					data[i].add(result[var]['value'])
 		#print()
 		csv = ""

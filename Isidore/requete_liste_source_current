@@ -4,5 +4,5 @@ select distinct ?a where
 ?a dcterms:title | (dc:subject / skos:broader* / (skos:prefLabel|skos:altLabel)) | dc:subject ?indexation.
 ?a dc:date ?date.
 FILTER (xsd:integer(?date) > 1980).
-FILTER regex(?indexation, '(?:^|\\W)(?:(?:russ(?:i)?e)|(?:sovi[eé]t)|(?:urss))', 'i').
+FILTER regex(?indexation, '(?:^|\\W)(?:(?:russ(?:i)?e)|(?:sovi[eé]t)|(?:urss(?!a)))', 'i').
 }
