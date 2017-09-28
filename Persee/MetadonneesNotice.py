@@ -1,6 +1,8 @@
+import re
+
 class MetadonneesNotice():
 	def __init__(self):
-		self.valid_anchor = ('russie', 'russe', 'soviét', 'soviet', 'urss', 'u.r.s.s')
+		#self.valid_anchor = ('russie', 'russe', 'soviét', 'soviet', 'urss', 'u.r.s.s')
 		self.dc_anchor = ('title', 'publisher', 'date', 'language')
 		#self.mods_anchor = ('abstract') # + mods:name(given, family,+ role)
 		self.marc_anchor = (('description', '787', 'gt'),) # marc (tag 787 / code g&t)
@@ -48,12 +50,14 @@ class MetadonneesNotice():
 				line += field.find('subfield', attrs={'code':j}).string+', '
 			self.data[i[0]] = line[:-2]
 
-	def validate(self):
+	def validate(self):#TODO: test that !
+		regex = re.compile('(?:^|\\W)(?:(?:russ(?:i)?e)|(?:sovi[eé]t)|(?:urss(?!a)))', flags=re.I)
 		test = False
 		if 'title' not in self.data and 'abstract' not in self.data:#Safety measure, you shouldn't do that anyway
 			return False
-		for i in self.valid_anchor:
-			if i in self.data['title'].lower() or ('abstract' in self.data and i in self.data['abstract'].lower()):
+		#for i in self.valid_anchor:
+		#	if i in self.data['title'].lower() or ('abstract' in self.data and i in self.data['abstract'].lower()):
+		if regex.match(self.data['title']) is not None or ('abstract' in self.data and regex.match(self.data['abstract']) is not None)
 				test = True
 		return test
 
