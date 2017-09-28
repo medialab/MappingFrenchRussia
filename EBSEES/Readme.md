@@ -19,5 +19,5 @@ Give a BeautifulSoup (version 4) tree (or similar) to parse method
 #### Non-usable before parsing
 
 - dump: raw dump (aka print) of the object
-- valid: return the validity of the notice (does it contains one of our keywords ?)
+- valid: check if notice contains target keywords
 - to_csv: CSV export (return value)
