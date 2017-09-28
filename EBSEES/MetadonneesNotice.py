@@ -61,6 +61,19 @@ class MetadonneesNotice():
 					#self.fields_data[self.fields_header.index(i.td.string)].append((text, link))
 					self.fields_data[i.td.string][1].append((text, link))
 
+	def valid(self):
+		keywords = ('russie', 'russe', 'soviét', 'soviet', 'urss', 'u.r.s.s')
+		rslt = False
+		for i in self.fields_data['Title'][1]:
+			for j in keywords:
+				if j in i[0].lower():
+					rslt = True
+		for i in self.fields_data['Subjects'][1]:
+			for j in keywords:
+				if j in i[0].lower():
+					rslt = True
+		return rslt
+
 	def dump(self):
 		print(self.fields_data)
 
@@ -80,18 +93,18 @@ class MetadonneesNotice():
 					#csv += value[0][0]
 					#for j in range(len(value)-1):
 					#	csv += ' // ' + value[j+1][0]
-					csv += ',"'+self.fields_data[self.fields_header[i+1]][1][0][0].replace('"', '\\"')
+					csv += ',"'+self.fields_data[self.fields_header[i+1]][1][0][0].replace('"', '""')
 					for j in range(len(self.fields_data[self.fields_header[i+1]][1])-1):
-						csv += ' // ' + self.fields_data[self.fields_header[i+1]][1][j+1][0].replace('"', '\\"')
+						csv += ' // ' + self.fields_data[self.fields_header[i+1]][1][j+1][0].replace('"', '""')
 					csv += '"'
 				#if self.fields_flags[i]&2:
 				if self.fields_data[self.fields_header[i+1]][0] & 2:
 					#csv += value[0][1]
 					#for j in range(len(value)-1):
 					#	csv += ' // ' + value[j+1][1]
-					csv += ',"'+self.fields_data[self.fields_header[i+1]][1][0][1].replace('"', '\\"')
+					csv += ',"'+self.fields_data[self.fields_header[i+1]][1][0][1].replace('"', '""')
 					for j in range(len(self.fields_data[self.fields_header[i+1]][1])-1):
-						csv += ' // ' + self.fields_data[self.fields_header[i+1]][1][j+1][1].replace('"', '\\"')
+						csv += ' // ' + self.fields_data[self.fields_header[i+1]][1][j+1][1].replace('"', '""')
 					csv += '"'
 			else:
 				if self.fields_data[self.fields_header[i+1]][0] & 1:
