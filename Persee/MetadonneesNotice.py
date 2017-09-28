@@ -53,7 +53,7 @@ class MetadonneesNotice():
 		if 'title' not in self.data and 'abstract' not in self.data:#Safety measure, you shouldn't do that anyway
 			return False
 		for i in self.valid_anchor:
-			if i in self.data['title'] or ('abstract' in self.data and i in self.data['abstract']):
+			if i in self.data['title'].lower() or ('abstract' in self.data and i in self.data['abstract'].lower()):
 				test = True
 		return test
 
