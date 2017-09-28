@@ -1,5 +1,9 @@
 import re
 
+#class MetadonneesNotice
+# Goal: Parse a Persee notice
+# Usage: Give a BeautifulSoup tree (or similar tree) to parse method
+
 class MetadonneesNotice():
 	def __init__(self):
 		#self.valid_anchor = ('russie', 'russe', 'soviét', 'soviet', 'urss', 'u.r.s.s')
