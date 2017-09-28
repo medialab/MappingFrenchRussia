@@ -9,3 +9,5 @@ Get Isidore metadata from notice list by SPARQL endpoint.
 ### Usage
 
 liste_oeuvre.py [filelist]
+
+(results saved in [filelist].csv)
