@@ -27,19 +27,30 @@ class SRUBNFSpider(scrapy.Spider):
 		soup = BeautifulSoup(response.body, "lxml-xml")
 		zone250 = soup.find('datafield', attrs={'tag':'250'})
 		#print(soup)
+		f = open('/tmp/250BNF.csv', 'a')
+		f.write(response.meta['ark'][:-1]+',')
 		if zone250 is not None:
 			#print('There is !')
-			if zone250.find('subfield', attrs={'code':'u'}) is not None:
-				f = open('/tmp/ark_good', 'a')
-				f.write(response.meta['ark'])
-				f.close()
-				response.meta['num'].num += 1
-				print(response.meta['num'].num)
+			attrU = zone250.find('subfield', attrs={'code':'u'})
+			if attrU is not None:
+				#f = open('/tmp/ark_good', 'a')
+				#f.write(response.meta['ark'])
+				#f.close()
+				#response.meta['num'].num += 1
+				#print(response.meta['num'].num)
+				line = ''
+				for j in attrU.stripped_strings:
+					line += j
+				f.write(line)
 			else:
-				f = open('/tmp/ark_noU', 'a')
-				f.write(response.meta['ark'])
-				f.close()
+				#f = open('/tmp/ark_noU', 'a')
+				#f.write(response.meta['ark'])
+				#f.close()
+				f.write('Pas de U')
 		else:
-			f = open('/tmp/ark_no250', 'a')
-			f.write(response.meta['ark'])
-			f.close()
+			#f = open('/tmp/ark_no250', 'a')
+			#f.write(response.meta['ark'])
+			#f.close()
+			f.write('Pas de zone 250')
+		f.write('\n')
+		f.close()
