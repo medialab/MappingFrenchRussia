@@ -1,0 +1,16 @@
+import csv
+import sys
+
+if len(sys.argv) < 3:
+	print('Usage '+sys.argv[0]+' [source] [dest]')
+
+f = open(sys.argv[1],'r')
+g = open(sys.argv[2],'w')
+
+sourceCSV = csv.reader(f)
+destCSV = csv.writer(g)
+for line in sourceCSV:
+	if int(line[4]) >= 1980:
+		destCSV.writerow(line)
+f.close()
+g.close()
