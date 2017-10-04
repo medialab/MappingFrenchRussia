@@ -95,6 +95,9 @@ class PerseeSpider(scrapy.Spider):
 		notice = response.meta['noticeObject']
 		soup = BeautifulSoup(response.body, "lxml-xml")
 		notice.parse_mods(soup)
+		#print(notice.data['title'])
+		#if 'russie' in notice.data['title'].lower():
+		#	print('Oui!')
 		if notice.validate():
 			request = scrapy.Request(url=url_header+response.meta['noticeId'], callback=self.parse_notice_marc)
 			request.meta['noticeObject'] = notice
@@ -105,6 +108,7 @@ class PerseeSpider(scrapy.Spider):
 		notice = response.meta['noticeObject']
 		soup = BeautifulSoup(response.body, "lxml-xml")
 		notice.parse_marc(soup)
-		f = open('/tmp/scrap_persee.csv', 'a')
-		f.write(notice.to_csv())
-		f.close()
+	#	f = open('/tmp/scrap_persee.csv', 'a')
+		with open('/tmp/scrap_persee.csv', 'a') as f:
+			f.write(notice.to_csv())
+	#	f.close()
