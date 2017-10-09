@@ -2,7 +2,7 @@
 
 ## Préambule
 
-Cette documentation est structuré par bases, les techniques changeant
+Cette documentation est structurée par bases, les techniques changeant
 d'une base à l'autre.
 
 Les différentes techniques employées sont:
