@@ -34,7 +34,11 @@ with open(sys.argv[1], 'r') as f, open(sys.argv[2], 'w') as g:
 			#print(line)
 		else:
 			#print(line, source_size)
-			line.append(line[17])
+			doc_words = line[17].split(' ')
+			if len(doc_words) == 2:
+				line.append(doc_words[1]+' '+doc_words[0])
+			else:
+				line.append(' '.join(doc_words))
 			line.append(line[2])
 			line.append(line[18]+', '+line[27])
 			line.append(line[21])
