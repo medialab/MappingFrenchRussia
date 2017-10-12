@@ -182,3 +182,30 @@ C'est d'ailleurs le seul des scrap présents qui prend la journée.
 
 Un CSV avec un seul champ pour les contributeurs. Il n'y a pas de champs lié au
 sujet dans cette base.
+
+## Réconciliation des bases
+
+### Objectif et motivations
+
+Le but est d'avoir un fichier tabulaire comprenant toutes les bases.
+
+Les intérêts sont les suivants:
+
+1. Pouvoir manipuler toutes les notices dans un seul fichier
+2. Pouvoir harmoniser des champs communs (noms d'auteurs, titres, etc) sur toutes les bases
+3. Garder les informations spécifiques à chaque base
+
+### Principe
+
+Celui-ci se divise en trois parties:
+
+1. Créer dans chaque base des champs supplémentaires inscrivant de manière uniformisée
+certaines informations communes à toutes les bases,
+2. Fusionner les bases par blocs:
+	- Le fichier final a autant de colonnes que l'ensemble des colonnes des différentes bases
+	- Chaque enregistrement remplit les colonnes de sa base d'origine, les autres colonnes sont laissées vides
+	- Les enregistrements sont rassemblés par base
+	- Le fichier tabulaire ainsi produit présente des blocs successifs qui remplissent une partie des colonnes et laisse vide les autres
+3. Rajouter des colonnes aggrégeant les informations des colonnes créées à l'étape 1
+
+Cela permet d'uniformiser par la suite les champs commun tout en gardant une traçabilité de l'information.
