@@ -1,6 +1,13 @@
 import sys
 import csv
 import re
+
+# /!\ This code IS **TAB INDENTED** /!\
+
+# TODO: make this a clean importable module
+
+# Goal: Add standard (standard as "common for all the datasets") fields with proper formatting
+
 if len(sys.argv) < 3:
 	print('Usage: '+sys.argv[0]+' [source] [destination]')
 	sys.exit()

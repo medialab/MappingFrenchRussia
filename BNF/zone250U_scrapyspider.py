@@ -9,6 +9,8 @@ class CountObject():
 			self.num = 0
 
 class SRUBNFSpider(scrapy.Spider):
+	"""Handles BNF SRU notices retrieving & parsing (goal: getting the Intermarc 250$u)."""
+
 	name = "SRUBNF"
 
 	def start_requests(self):

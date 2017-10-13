@@ -1,6 +1,13 @@
 import sys
 import csv
 import re
+
+# /!\ This code IS **TAB INDENTED** /!\
+
+# TODO: make this a clean importable module
+
+# Goal: re-filter notices through a regex filter
+
 if len(sys.argv) < 4:
 	print('Usage: '+sys.argv[0]+' [source] [destination] [trad]')
 	sys.exit()
