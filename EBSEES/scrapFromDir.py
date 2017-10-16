@@ -4,6 +4,10 @@ import os
 import sys
 from MetadonneesNotice import *
 
+# /!\ This code IS **TAB INDENTED** /!\
+
+# Get CSV from HTML notice directory
+
 #html = requests.get('http://ebsees.staatsbibliothek-berlin.de/search.html?data=10000&title=Wieviel-Zeit-bleibt-Bosnien-noch-').text
 #f = open('/home/sg/pageebsees.html')
 #html = f.read()

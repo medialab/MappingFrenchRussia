@@ -1,6 +1,10 @@
 import sys
 import csv
 
+# /!\ This code IS **TAB INDENTED** /!\
+
+# Make a block matrix CSV style to merge the different datasets.
+
 taille_arg = len(sys.argv)
 if taille_arg < 2:
 	print('Usage: '+sys.argv[0]+' [list of csv] [destination CSV]')

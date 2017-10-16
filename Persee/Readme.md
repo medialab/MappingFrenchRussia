@@ -1,6 +1,6 @@
 # Persee Zone
 
-## class MetadonneesNotice
+## class MetadonneesNotice (from MetadonneesNotice.py)
 
 ### Goal
 
@@ -33,3 +33,21 @@ Then, there is 4 methods used within the parsing process:
 - validate: check if notice contains target keywords
 - dump: raw dump (aka print) of the object
 - to_csv: CSV export (return value)
+
+## scrap_scrapyspider.py
+
+### Goal
+
+Download & parse to CSV targeted notices.
+
+## post_traitement_date.py
+
+### Goal
+
+Filter notices CSV (kick too old - aka pre 1980 - notices).
+
+## persee_reconciliation_etape1.py
+
+### Goal
+
+Add standard (standard as "common for all the datasets") fields with proper formatting.

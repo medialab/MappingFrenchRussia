@@ -2,7 +2,7 @@
 import scrapy
 from bs4 import BeautifulSoup
 import sys
-sys.path.append('../../../')
+#sys.path.append('../../../')
 from MetadonneesNotice import *
 
 class CountObject():
@@ -10,6 +10,8 @@ class CountObject():
 			self.num = 0
 
 class PerseeSpider(scrapy.Spider):
+	"""Download & save to CSV valid Persee notices (we include too old notices though)."""
+
 	name = "Persee"
 
 	def start_requests(self):

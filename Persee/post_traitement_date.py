@@ -1,6 +1,10 @@
 import csv
 import sys
 
+# /!\ This code IS **TAB INDENTED** /!\
+
+# Kick too old notices
+
 if len(sys.argv) < 3:
 	print('Usage '+sys.argv[0]+' [source] [dest]')
 

@@ -1,10 +1,23 @@
 import re
 
+# /!\ This code IS **TAB INDENTED** /!\
+
 #class MetadonneesNotice
 # Goal: Parse a Persee notice
 # Usage: Give a BeautifulSoup tree (or similar tree) to parse method
 
 class MetadonneesNotice():
+	"""Parse and export (to CSV) a Persee notice.
+	Usage:
+	1. parse the notice:
+		- call get_id once
+		- call parse_dc on the DC BeautifulSoup'd XML
+		- call parse_mods on the MODS BeautifulSoup'd XML
+		- call parse_marc on the MarcXml BeautifulSoup'd XML
+	2. call validate to check if the notice contains the required keywords
+	3. call to_csv
+	"""
+
 	def __init__(self):
 		#self.valid_anchor = ('russie', 'russe', 'soviét', 'soviet', 'urss', 'u.r.s.s')
 		self.dc_anchor = ('title', 'publisher', 'date', 'language')
