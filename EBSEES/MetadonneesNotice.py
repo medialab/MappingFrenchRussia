@@ -6,6 +6,13 @@
 
 
 class MetadonneesNotice():
+	"""Parse and export (to CSV) a EBSEES notice.
+	Usage:
+	1. Call parse method (eats a BeautifulSoup4 tree)
+	2. Call valid method (returns boolean)
+	3. Call to_csv method if notice is valid
+	"""
+
 	def __init__(self):
 		#self.fields = {'ID':'', 'Title':'', 'Author(s)':'', 'Year':'', 'Pages':'',\
 		#'Editor(s)':'', 'Published':'', 'Language(s)':'', 'Publsiher':'', 'Place':'',\

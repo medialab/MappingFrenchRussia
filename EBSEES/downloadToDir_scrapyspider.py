@@ -2,10 +2,15 @@
 import scrapy
 from bs4 import BeautifulSoup
 import sys
+
+# /!\ This code is **TAB INDENTED** /!\
+
 #sys.path.append('../../../')
 #from MetadonneesNotice import *
 
 class EBSEESSpider(scrapy.Spider):
+	"""Download all notices to directory."""
+
 	name = "EBSEES"
 
 	def start_requests(self):

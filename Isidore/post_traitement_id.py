@@ -1,6 +1,10 @@
 import sys
 import csv
 
+# /!\ This code is **TAB INDENTED** /!\
+
+# Get the http version of the id (aka the Isidore full handle).
+
 if len(sys.argv) < 4:
 	print('Usage: '+sys.argv[0]+' [source] [destination] [id column number]')
 	sys.exit()

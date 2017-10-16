@@ -4,13 +4,13 @@ import sys
 
 # /!\ This code is **TAB INDENTED** /!\
 
-# Get the main (aka without dc:source because it was added after) fields of given notice list.
+# Get the dc:source fields of given notice list.
 
-num_start = 6781 #Last one is only Bibliographical ressource => garbage
+num_start = 6283 #Last one is only Bibliographical ressource => garbage
 
-if len(sys.argv) == 1:
+if len(sys.argv) < 3:
 	print ("Usage:")
-	print(sys.argv[0], "[sourcelistfile]")
+	print(sys.argv[0], "[sourcelistfile] [csvfile]")
 	sys.exit()
 
 sparql = SPARQLWrapper("http://api.rechercheisidore.fr/sparql")
@@ -23,18 +23,9 @@ PREFIX dcterms: <http://purl.org/dc/terms/>
 PREFIX dces: <http://purl.org/dc/elements/1.1/>
 PREFIX foaf: <http://xmlns.com/foaf/0.1/>
 
-select distinct ?titre ?date ?id ?nomauteur ?nomediteur ?nomcontrib ?sujet ?resume where {
-"""+'\n<'+source[:-1]+'>'+""" dcterms:title ?titre;
- dces:date ?date;
- dcterms:identifier ?id;
- dcterms:creator / foaf:name ?nomauteur;
- dcterms:subject / (skos:prefLabel|skos:altLabel) ?sujet.
- OPTIONAL{
-"""+'\n{<'+source[:-1]+'>'+" dc:publisher / foaf:name ?nomediteur.} UNION"\
-+'\n{<'+source[:-1]+'>'+" dc:description ?resume.} UNION"\
-+'\n{<'+source[:-1]+'>'+" dc:contributor / foaf:name ?nomcontrib.}"\
-+"""
- }
+select distinct ?id ?source where {
+"""+'\n<'+source[:-1]+'>'+""" dc:source ?source;
+dcterms:identifier ?id.
 }
 """
 		#print(query)
@@ -71,14 +62,14 @@ select distinct ?titre ?date ?id ?nomauteur ?nomediteur ?nomcontrib ?sujet ?resu
 		#	csv += headers + ','
 		#csv = csv[0:-1]+'\n'
 		for i in data:
-			csv+='§'
+			csv+='"'
 			for num, j in enumerate(i):
 				if (num):
 					csv += " // "
-				csv += j
-			csv += '§,'
+				csv += j.replace('"', '""')
+			csv += '",'
 		csv = csv[0:-1]+'\n'
-		g = open(sys.argv[1].split('.')[0]+'.csv', 'a')
+		g = open(sys.argv[2], 'a')
 		g.write(csv)
 		g.close()
 		#print(csv)

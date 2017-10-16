@@ -1,5 +1,9 @@
 import sys
 
+# /!\ This code is **TAB INDENTED** /!\
+
+# Kicks the empty results of given 2-column CSV.
+
 if len(sys.argv) < 3:
 	print('Usage: '+sys.argv[0]+' [source] [destination]')
 	sys.exit()
