@@ -1,0 +1,6 @@
+#popup_label {
+  position: fixed;
+  color: white;
+  z-index:0;
+  font-size: 50%;
+}
