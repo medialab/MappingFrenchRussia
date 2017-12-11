@@ -7,8 +7,6 @@ if __name__ == '__main__':
     with open(sys.argv[1], 'r') as f, open(sys.argv[2], 'w') as g:
         reader = csv.reader(f)
         writer = csv.writer(g)
-        #column_dict = {}
-        #parent_dict = {}
         year_dict = {}
         dedup_line = True
         for line_num, record in enumerate(reader):
@@ -17,10 +15,6 @@ if __name__ == '__main__':
                 director = record[0]
                 year = int(record[23])
                 topic_list = record[14]
-#                for director in directors_list:
-                #if director not in column_dict:
-                #    column_dict[director] = []
-                #column_dict[director].append((author, year))
 
                 if year not in year_dict:
                     year_dict[year] = {}
@@ -35,15 +29,10 @@ if __name__ == '__main__':
                         year_dict[year][director][0].index(topic)\
                         ] += 1
 
-                #if parent_dict.get(author, "") == "":
-                #    parent_dict[author] = director
-                #if director not in parent_dict:
-                #    parent_dict[director] = ""
-
             if not dedup_line:
                 author = record[0]
             dedup_line = not dedup_line
-#        rslt = []
+
         writer.writerow(['Year', 'Director', 'Topics', 'Topic Frequences', 'Number of topics'])
         for year, director_dict in year_dict.items():
             for director_name, topic_info in director_dict.items():
@@ -53,4 +42,3 @@ if __name__ == '__main__':
                 writer.writerow([year, director_name, topics_piped, freqs_piped, topic_number])
 #            print(year, ',', len(item[0]), ',', len(item[1]), sep='')
 #            writer.writerow([year, len(item[0]), len(item[1])])
-#        print(year_dict)
