@@ -1,6 +1,9 @@
 import csv, sys, json
 
 def thesis_iterator(thesis_matrix):
+    """Iterate over MFR theses.fr CSV dataset
+    (aka two rows per record: one for thesis director, one for thesis author).
+    """
     dedup_line = True
     for line_num, record in enumerate(thesis_matrix):
         if line_num and dedup_line:
@@ -14,6 +17,7 @@ def thesis_iterator(thesis_matrix):
         dedup_line = not dedup_line
 
 def minimal_topic_dispersion_yearly(f):
+    """Compute the number of topics per year."""
     year_dict = {}
     for author, director, year, topic_list in thesis_iterator(f):
         if year not in year_dict:
@@ -26,6 +30,7 @@ def minimal_topic_dispersion_yearly(f):
         yield [year, len(topic_set)]
 
 def topic_dispersion_yearly(f):
+    """Compute the topics frequences per year."""
     year_dict = {}
     for author, director, year, topic_list in thesis_iterator(f):
         if year not in year_dict:
@@ -41,6 +46,7 @@ def topic_dispersion_yearly(f):
             yield [year, topic_name, topic_freq]
 
 def topic_with_director_dispersion(f):
+    """Compute for the given thesis subject the directors count."""
     topic_dict = {}
     for author, director, year, topic_list in thesis_iterator(f):
         for topic in topic_list.split('***'):
@@ -53,6 +59,7 @@ def topic_with_director_dispersion(f):
         yield [topic, len(dir_set)]
 
 def director_with_topic_dispersion(f):
+    """Compute for the given director the thesis subjects count."""
     director_dict = {}
     for author, director, year, topic_list in thesis_iterator(f):
         if director not in director_dict:
@@ -65,6 +72,7 @@ def director_with_topic_dispersion(f):
         yield [director, len(topic_set)]
 
 def global_year_director_topic_dispersion(f):
+    """Compute for each director each year the topics and their occurences."""
     year_dict = {}
     for author, director, year, topic_list in thesis_iterator(f):
         if year not in year_dict:
