@@ -27,11 +27,34 @@ if __name__ == '__main__':
     with open(sys.argv[1], 'r') as f:
         reader = csv.reader(f)
         G = nx.Graph()
+        topic_dict = {}
+        director_dict = {}
+        edge_set = set() #Convention: first director, second topic
         for author, director_list, year, topic_list, standardized_field in thesis_iterator(reader):
-            for director in director_list:
+            if standardized_field not in topic_dict:
+                topic_dict[standardized_field] = 1
+            else:
+                topic_dict[standardized_field] += 1
+
+            for i, director in enumerate(director_list):
                 # This is soooo rude against G ...
-                G.add_node(director, nodetype="d")
-                G.add_node(standardized_field, nodetype="f")
-                G.add_edge(director, standardized_field)
+                #G.add_node(director, nodetype="d")
+                #G.add_node(standardized_field, nodetype="f")
+                #G.add_edge(director, standardized_field)
+                if director not in director_dict:
+                    director_dict[director] = 1
+                else:
+                    director_dict[director] += 1
+                edge_set.add((director, standardized_field))
+                for j in range(i+1, len(director_list)):
+                    #print(j)
+                    edge_set.add((director, director_list[j]))
+
+        for director, nb_thesis in director_dict.items():
+            G.add_node(director, nodetype='d', occ = nb_thesis)
+        for topic, nb_thesis in topic_dict.items():
+            G.add_node(topic, nodetype='f', occ = nb_thesis)
+        for source, target in edge_set:
+            G.add_edge(source, target)
 
         nx.write_gexf(G, sys.argv[2])
