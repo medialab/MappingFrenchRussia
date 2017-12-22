@@ -18,12 +18,12 @@ if __name__ == "__main__":
                 packed_subjects = record[0]
                 packed_participants = record[1]
                 for subject in suject_regex.findall(packed_subjects):
-                    G.add_node(subject, nodetype='S')
+                    G.add_node((subject, 'S'), nodetype='S', label=subject)
                     subject_set.add(subject)
                     for category, participant in participants_regex.findall(packed_participants):
-                        G.add_node(participant, nodetype=category)
+                        G.add_node((participant, category), nodetype=category, label=participant)
                         participants_set.add(participant)
-                        G.add_edge(participant, subject)
+                        G.add_edge((participant, category), (subject, 'S'))
 
     nx.write_gexf(G, sys.argv[2])
     print(json.dumps(list(subject_set), indent=1))
