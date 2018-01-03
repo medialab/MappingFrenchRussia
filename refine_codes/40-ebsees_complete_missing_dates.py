@@ -1,5 +1,8 @@
 import re
 # ebsees id: 95513
+
+"""Complete some missing EBSEES dates with the source field."""
+
 single_year_regex = re.compile(r'.*(?:,|\.) ?([0-9]{4})(?:, |$)')
 max_year_regex = re.compile(r'[0-9]{4}')
 

@@ -1,4 +1,9 @@
 import re
+
+"""Correct the buguous scanR title (convert string representation
+of unicode characters to the actual characters).
+"""
+
 if '<U+' not in value:
   return value
 else:

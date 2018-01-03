@@ -1,5 +1,7 @@
 import re
 
+"""Remove the 'Auteur du texte' when present within BnF authors name."""
+
 bnf_regex = re.compile(r'(.*?)(?:\. auteur du texte,?)?$')
 tab = []
 for author in value.split(' // '):

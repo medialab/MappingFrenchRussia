@@ -1,6 +1,8 @@
-################## START HERE ###################
-
 import re
+
+"""Chained scripts (must be manually applied one by one) to try as much
+as possible to guess the studied period in the BnF publication.
+"""
 
 title_regex = re.compile(r'.*?([0-9]{3,4}\??\s?-\s?[0-9]{3,4}).*')
 subject_regex = re.compile(r'.*?([0-9]{3,4}\??\s?-\s?[0-9\.]{3,4}).*')
