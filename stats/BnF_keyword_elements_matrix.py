@@ -1,5 +1,9 @@
 import csv, sys
 
+"""Compute Subjects-Publication matrix (a column per subject, a row per publication)
+with subjects list as first argument, then publication CSV and finally the
+CSV to be written."""
+
 if __name__ == '__main__':
     if len(sys.argv) < 4:
         sys.exit('USAGE : '+sys.argv[0]+' [ElementsList] [PublicationsCSV] [MatrixCSV]')

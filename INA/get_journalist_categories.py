@@ -1,5 +1,10 @@
 import csv, sys, re
 
+"""Get the participants list and their role (either journalist or not)
+to each given category
+(currently only two modalities: news report and not news report).
+"""
+
 if __name__ == "__main__":
     if len(sys.argv) < 3:
         sys.exit('USAGE : '+sys.argv[0]+' [srcCSV] [destCSV]')

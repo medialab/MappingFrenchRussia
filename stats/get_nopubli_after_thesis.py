@@ -1,6 +1,10 @@
 import csv, sys, json
 from operator import itemgetter
 
+"""Get the list of escaped PhD (aka there is no signs of academic
+publication after the thesis, so it is probably someone that didn't
+follow the academic path)."""
+
 if __name__ == '__main__':
     if len(sys.argv) < 2:
         sys.exit('USAGE : '+sys.argv[0]+' [srcCSV]')
@@ -13,7 +17,7 @@ if __name__ == '__main__':
         dedup_line = True
         for line_num, record in enumerate(reader):
             if record[3] != "":
-                if line_num and dedup_line and int(record[2]) < 2014:
+                if line_num and dedup_line and int(record[2]) < 2014:# Don't take into account recent thesis.
                     #director = record[0]
     #                for director in directors_list:
                     thesis_publicable_author.add(author)

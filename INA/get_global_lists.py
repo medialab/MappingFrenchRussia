@@ -1,6 +1,13 @@
 import csv, sys, re, json
 import networkx as nx
 
+"""Make the lists of:
+1. Subjects
+2. Roles
+3. Participants
+across all the given CSVs
+"""
+
 if __name__ == "__main__":
     if len(sys.argv) < 3:
         sys.exit('USAGE : '+sys.argv[0]+' s1 r2 p3 [srcCSV]')
