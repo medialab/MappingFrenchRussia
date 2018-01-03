@@ -1,16 +1,24 @@
 import csv, sys, json
 from operator import itemgetter
 
+"""From a given thesis set, compute the thesis tree, with directors, authors
+and oldest common ancestors data.
+"""
+
 def build_tree(node, search_dict, seed_list):
-    #node = {'name':node_name, 'children':[]}
-    if node['name'] not in column_dict and seed_list == None:
+    node['descendant_count'] = 0
+    if node['name'] not in column_dict and seed_list is None:
         return node
 
-    children_list = search_dict[node['name']] if seed_list == None else seed_list
+    children_list = search_dict[node['name']] if seed_list is None else seed_list
     if children_list != []:
         node['children'] = []
+        node['descendant_count'] = len(children_list)
     for item in children_list:
         node['children'].append(build_tree(item, search_dict, None))
+        node['descendant_count'] += 1
+    # Sorting shit goes here. Beware of the root case (seed_list != None).
+    node['children'] = sorted(node['children'], key=itemgetter('descendant_count'), reverse=True)
     return node
 
 if __name__ == '__main__':
@@ -28,12 +36,13 @@ if __name__ == '__main__':
             if line_num and dedup_line:
                 #directors_list = record[0].lower().split('***')
                 director = record[0]
+                topics = record[8]
                 year = record[23]
 #                for director in directors_list:
                 if director not in column_dict:
                     column_dict[director] = []
                 #column_dict[director].append((author, int(year)))
-                column_dict[director].append({"name": author, "year":int(year)})
+                column_dict[director].append({"name": author, "year":int(year), "topics":topics})
 
                 if parent_dict.get(author, "") == "":
                     parent_dict[author] = director

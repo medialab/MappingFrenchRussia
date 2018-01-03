@@ -1,6 +1,10 @@
 import csv, sys, json
 from operator import itemgetter
 
+"""From a given thesis set, compute the thesis flat list, with directors, authors
+and oldest common ancestors data.
+"""
+
 if __name__ == '__main__':
     if len(sys.argv) < 3:
         sys.exit('USAGE : '+sys.argv[0]+' [srcCSV] [destJSON]')
