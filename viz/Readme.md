@@ -1,5 +1,12 @@
 # Visualisation zone
 
+## make_director_columns.py
+### Goal
+From a given thesis set, compute the thesis flat list, with directors, authors
+and oldest common ancestors data.
+### Usage
+`make_director_columns.py [source CSV] [destination JSON]`
+
 ## make_viz_data.py
 ### Goal
 From a given thesis set, compute the thesis tree, with directors, authors
