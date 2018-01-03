@@ -13,7 +13,7 @@
 }
 
 .node text {
-  font-size: 9px;
+  font-size: 12px;
 }
 
 path.link {
@@ -24,22 +24,23 @@ path.link {
 </style>
 </head>
   <body>
-    <div id="body" style="height: 100% !important;
-  width: 100% !important;
-  border:2px solid #000;
-  overflow: scroll !important;">
-      <div id="footer">
-        Mapping French Russia
-        <div class="hint">click or option-click to expand or collapse</div>
-      </div>
+    <div id="body">
+    </div>
+    <div id="footer">
+        Phylogénie des directions de thèse
+        <div class="hint">Mapping French Russia - Base thèses.fr</div>
+    </div>
+    <div id="infobox">bleh
     </div>
  <script type="text/javascript">
 
 var m = [20, 120, 20, 120],
     w = 1280 - m[1] - m[3],
-    h = 1800 - m[0] - m[2],
+    h = 2800 - m[0] - m[2],
     i = 0,
     root;
+
+var max_range;
 
 var tree = d3.layout.tree()
     .size([h, w]);
@@ -73,6 +74,8 @@ d3.json("theses_transitive_or_multiple_tree.json", function(json) {
   toggle(root.children[1].children[2]);
   toggle(root.children[9]);
   toggle(root.children[9].children[0]);*/
+
+  max_range = root.children[0].descendant_count
 
   update(root);
 });
@@ -110,7 +113,14 @@ function update(source) {
   var nodes = tree.nodes(root).reverse();
 
   // Normalize for fixed-depth.
-  nodes.forEach(function(d) { d.y = d.depth * 180; });
+  nodes.forEach(function(d) {
+    d.y = /*d.year ?  220 + 10 * (d.year - 1980) :*/  d.depth * 220  /*180*/;
+//    console.log(d.y);
+    if (d.year) {
+      d.ay = 220 + 30 * (d.year - 1980);
+//      console.log(d.ay);
+    }
+  });
 
   // Update the nodes…
   var node = vis.selectAll("g.node")
@@ -126,7 +136,11 @@ function update(source) {
 
   nodeEnter.append("svg:circle")
       .attr("r", 1e-6)
-      .style("fill", function(d) { return d._children ? "lightsteelblue" : "#fff"; });
+      .style("fill", function(d) { return d._children ? "lightsteelblue" : "#fff"; })
+      .on("mouseenter", function(d) {
+        var elem = document.getElementById("infobox");
+        elem.innerHTML = "<p>" + d.name + (d.topics ? "</p><p>" + d.topics + "</p>" : "</p>");
+      });
 
   nodeEnter.append("svg:text")
       .attr("x", function(d) { return d.children || d._children ? -10 : 10; })
@@ -139,20 +153,25 @@ function update(source) {
   var nodeUpdate = node.transition()
       .duration(duration)
       .attr("transform", function(d) { return "translate(" + d.y + "," + d.x + ")"; });
+//      .attr("transform", function(d) { return "translate(" + (d.ay ? d.ay: d.y) + "," + d.x + ")"; });
 
   nodeUpdate.select("circle")
       .attr("r", 4.5)
       .style("fill", function(d) {
           var color = "#FFFFFF";
           if (d._children) {
-            if (d._children.length < 3)
-              color = "#5c96bd";
+//            console.log(255-(d.descendant_count/max_range)*255)
+            color = "rgb(0, "+(255-(d.descendant_count/max_range)*255)+", 0)"
+/*            if (d._children.length < 3)
+              color = "#6ff299";
 //            else if (d._children.length < 5)
 //              color = "#62a37f";
             else if (d._children.length < 6)
-              color = "#7fa355";
+              color = "#8cd480";
+            else if (d._children.length < 20)
+              color = "#3c9a55";
             else
-              color = "#cc6f54";
+              color = "#2f6936"*/
           }
           return color;
       });
@@ -187,11 +206,20 @@ function update(source) {
     .transition()
       .duration(duration)
       .attr("d", diagonal);
+//      .attr("d", function(d) { return diagonal(d) + (d.ay ? ("T"+d.x + "," + d.ay): "");});
 
   // Transition links to their new position.
   link.transition()
       .duration(duration)
       .attr("d", diagonal);
+//      .attr("d", function(d) {
+//      console.log(d);
+//       return "M" + d.source.y0 + "," + d.source.x0
+//        + "C" + (d.source.y0 + d.target.y) / 2 + "," + d.source.x0
+//        + " " + (d.source.y0 + d.target.y) / 2 + "," + d.target.x
+//        + " " + d.target.y + "," + d.target.x + (d.target.ay ? "T"+d.target.ay + ","+ d.target.x : "");
+//      });
+//      .attr("d", function(d) { return diagonal(d) + (d.ay ? ("T"+d.x + "," + d.ay): "");});
 
   // Transition exiting nodes to the parent's new position.
   link.exit().transition()
