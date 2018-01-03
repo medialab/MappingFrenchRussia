@@ -1,6 +1,8 @@
 import csv, sys, json
 from operator import itemgetter
 
+"""Get the number of thesis directors and authors per year."""
+
 if __name__ == '__main__':
     if len(sys.argv) < 3:
         sys.exit('USAGE : '+sys.argv[0]+' [srcCSV] [destCSV]')

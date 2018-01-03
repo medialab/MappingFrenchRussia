@@ -1,5 +1,7 @@
 import csv, sys
 
+"""Get the list of BnF topics and their occurences."""
+
 if __name__ == '__main__':
     if len(sys.argv) < 3:
         sys.exit('USAGE : '+sys.argv[0]+' [srcCSV] [destCSV]')

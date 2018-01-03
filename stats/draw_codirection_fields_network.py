@@ -1,6 +1,8 @@
 import csv, sys
 import networkx as nx
 
+"""Draw the bipartite codirectors-fields network (thesis dataset)."""
+
 def thesis_iterator(thesis_matrix):
     """Iterate over MFR theses.fr CSV dataset
     (aka two rows per record: one for thesis director, one for thesis author).
