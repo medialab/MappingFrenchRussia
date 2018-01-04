@@ -14,8 +14,12 @@ if __name__ == '__main__':
         matrix = csv.writer(g)
         record_dict = {}
         for record in reader:
+            keywords_field = record[4]
+            author = record[0]
+            title = record[1]
+            year = record[3]
             local_keywords_list = record[4].split(' // ')
-            unique_triplet = (record[0], record[1], record[3]) # Author, title, year
+            unique_triplet = (author, title, year)
             record_dict[unique_triplet] = [0 for i in global_keywords_list]
 #            print(keywords_list)
             for keyword in local_keywords_list:

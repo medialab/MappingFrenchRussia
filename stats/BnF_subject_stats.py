@@ -10,7 +10,8 @@ if __name__ == '__main__':
         writer = csv.writer(g)
         keywords_dict = {}
         for record in reader:
-            keywords_list = record[4].split(' // ')
+            keywords_field = record[4]
+            keywords_list = keywords_field.split(' // ')
 #            print(keywords_list)
             for keyword in keywords_list:
                 kwd_string = keyword

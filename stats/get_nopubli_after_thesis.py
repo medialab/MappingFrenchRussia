@@ -15,18 +15,23 @@ if __name__ == '__main__':
         publication_set = set()
 
         dedup_line = True
+        author = ""
         for line_num, record in enumerate(reader):
-            if record[3] != "":
-                if line_num and dedup_line and int(record[2]) < 2014:# Don't take into account recent thesis.
+            name_field = record[0]
+            year = record[2]
+            thesis_id = record[3]
+
+            if thesis_id != "":
+                if line_num and dedup_line and int(year) < 2014:# Don't take into account recent thesis.
                     #director = record[0]
     #                for director in directors_list:
                     thesis_publicable_author.add(author)
 
                 if not dedup_line:
-                    author = record[0]
+                    author = name_field
                 dedup_line = not dedup_line
             else:
-                for pub_author in record[0].split(' // '):
+                for pub_author in name_field.split(' // '):
                     publication_set.add(pub_author)
 
         print(len(publication_set), len(thesis_publicable_author), file=sys.stderr)
