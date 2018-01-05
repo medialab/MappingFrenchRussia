@@ -17,7 +17,7 @@ if __name__ == '__main__':
             thesis_id = record[2]
             if line_num:
                 year = int(record[1].split('-')[-1].split(' // ')[0])
-                time_interval = [int(date.split(' // ')[0]) for date in record[0].split('-')] if record[0] != 'Paléolithique' else -1
+                time_interval = [int(date.split(' // ')[0]) for date in record[0].split('_')] if record[0] != 'Paléolithique' else -1
             #print(time_interval)
 
             # Take the first thesis record per thesis (there is two records per thesis)
