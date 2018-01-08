@@ -1,8 +1,3 @@
-4. Script de déduplication entre base écrit (mais non appliqué par nécessité de complétion de certaines données auparavant)
-DONE 5. INA: sortie de la liste d'acteurs par catégorie en précisant leur rôle + listes globales des participants & sujets & rôles + graphe des acteurs/sujets
-6. Matrice pondérée temps d'étude vs année de publication
-7. Script jython de complétion des données + formation de la colonne période heuristique dans OR
-
 # Tâches réalisées en décembre
 
 ## Base Thèses
@@ -11,7 +6,7 @@ DONE 5. INA: sortie de la liste d'acteurs par catégorie en précisant leur rôl
 
 `MFR-Actions/Aggrégation_Bases_Publications_Scientifiques/Visualisations/Thèses`
 
-Il s'agit d'une arborescence (fondé sur d3) des thèses, avec une coloration
+Il s'agit d'une arborescence (fondée sur d3) des thèses, avec une coloration
 et un tri des thèses par nombre de descendants.
 
 Les thèses ayant moins de deux descendants ne sont pas incluses.
@@ -62,14 +57,34 @@ Il s'agit de CSV donnant par base la liste des acteurs et d'une catégorie de r�
 
 ### Réseaux acteurs-sujets
 
-Il s'agit d'un réseau (au format GEXF) biparti acteurs-sujets, les liens
+Il s'agit d'un réseau par base (au format GEXF) biparti acteurs-sujets, les liens
 entre acteurs et sujets étant la participation de l'acteur à une émission
 comportant ce sujet.
 
-## Dates d'études
 
 ## Script sur l'entièreté de la base
 
 ### Scripts dans OpenRefine
 
+Il s'agit de différents scripts de complétion et nettoyage des données:
+
+- Suppression d'informations inutiles dans les noms d'auteurs (translitérations alternative, mentions "auteur du texte")
+- Correction d'encodage des titre scanR
+- Complétion de certaines dates de publication dans la base EBSEES
+- Constitution d'une série d'heuristique pour évaluer la période étudiée pour les publications BnF
+
 ### Scripts hors d'OpenRefine
+
+- Script de déduplication des publications entre les bases écrit (mais non appliqué faute d'une ancre suffisamment stable pour le moment)
+- Script de repliage des noms d'auteurs pour une même publication (équivalent du "join multi-valued cells" d'OpenRefine)
+
+## Dates d'études
+
+`MFR-Actions/bases NOEL 2017/mfr_time_studied_year_matrix.csv`
+
+Il s'agit d'une matrice année de publication vs année d'études.
+Elle est constituée à partir du champ sur la période étudiée, constitué à la main
+pour la base thèses et par script (via une série d'heuristique) pour les publications BnF.
+
+Un score de 100 est attribué à chaque publication. Ce score est réparti équitablement
+sur les différentes année de la période étudiée par la publication.
