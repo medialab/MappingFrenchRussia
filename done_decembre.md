@@ -11,7 +11,7 @@ et un tri des thèses par nombre de descendants.
 
 Les thèses ayant moins de deux descendants ne sont pas incluses.
 Les codirections sont considérées comme des directions à part entière,
-et les thèses codirigées ne sont pas réintroduite dans les thèses dirigées
+et les thèses codirigées ne sont pas réintroduites dans les thèses dirigées
 par les codirecteurs de la codirection.
 Les codirections n'ayant pas amené plus de deux descendants sont donc élaguées
 de la visualisation.
@@ -52,7 +52,7 @@ dans toute la base INA (radio, tv nationale, tv régionale, tv satellite).
 
 ### Listes acteurs-catégorie
 
-Il s'agit de CSV donnant par base la liste des acteurs et d'une catégorie de rôle
+Il s'agit de CSV donnant par base la liste des acteurs avec leur catégorie de rôle
 (journaliste ou non) selon une catégorie d'émission (journal ou non).
 
 ### Réseaux acteurs-sujets
@@ -75,7 +75,7 @@ Il s'agit de différents scripts de complétion et nettoyage des données:
 
 ### Scripts hors d'OpenRefine
 
-- Script de déduplication des publications entre les bases écrit (mais non appliqué faute d'une ancre suffisamment stable pour le moment)
+- Script de déduplication des publications entre les bases (mais non appliqué faute d'une ancre suffisamment stable pour le moment)
 - Script de repliage des noms d'auteurs pour une même publication (équivalent du "join multi-valued cells" d'OpenRefine)
 
 ## Dates d'études
