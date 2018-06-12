@@ -3,12 +3,18 @@ const moment = require('moment');
 const {writeFile} = require('fs');
 const ddc = require('./ddc.json');
 
-let theses = require ('./theses_metadata_abstract_keywords.json');
+let theses = require ('./theses_metadata_abstract_keywords_25_09.json');
 
 theses = theses.map(t => {
+	if (!t.ecole_doctorale_id)
+		t.ecole_doctorale_id = ''
+	if (!t.ecole_doctorale_name)
+		t.ecole_doctorale_name = ''
 	t.dateMaj = moment(t.dateMaj).format('YYYY-MM-DD');
 	t.dateInsert = moment(t.dateInsert).format('YYYY-MM-DD');
 	t.sujDatePremiereInscription = moment(t.sujDatePremiereInscription).format('YYYY-MM-DD');
+	if (t.abstract)
+		delete t.abstract
 	if (t.oaiSetSpec){
 		t.oaiSetSpec = t.oaiSetSpec.map(oai => {
 			let label = ddc.find(d => d.oaiSetSpec === oai)
@@ -29,7 +35,7 @@ stringify(theses,
 		}
 	},
 	(err,csv) => 
-		writeFile('theses_metadata.csv', csv, 'utf8',
+		writeFile('theses_metadata_25_09.csv', csv, 'utf8',
 			err => {
 				if (err)
 					console.log(`Error while writing file ${err}`)

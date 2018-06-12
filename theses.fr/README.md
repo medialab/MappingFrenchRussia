@@ -4,9 +4,9 @@ Some scripts to extract data from http://www.theses.fr
 
 # scrap_theses_searchEngine.js
 
-Download theses metadat info as json files either from theses ID list or search engine results.
+Download theses metadata info as json files either from theses ID list or search engine results.
 
-Store data into theses_metatdata.json
+Store data into theses_metadata.json
 
 # hydrate_thesis.js
 

@@ -1,0 +1,11 @@
+http://catalogue.bnf.fr/search.do?mots1=ALL;0;0;&mots0=TIT;-1;1;russie+soviet&&pageRech=rav
+catalogue.bnf.fr/search.do?mots3=SUJ;1;0;sovietique&mots2=SUJ;1;0;urss&mots1=SUJ;1;0;russe&mots0=SUJ;-1;0;russie&mots4=SUJ;1;0;sovietiques&facDocs=t;e;r;a;i&langue3=LAN;0;0&langue2=LAN;0;0&langue1=LAN;0;0&langue0=LAN;-1;fre;0&langue4=LAN;0;0&datepub=3;1980&facPays=fr&pageRech=rav
+
+
+http://catalogue.bnf.fr/search.do?mots1=SUJ;1;1;russie+sovietique+soviétique+urss;russie&mots0=TIT;-1;1;russie+sovietique+soviétique+urss&facDocs=t;e;r;a;i&langue3=LAN;0;0&langue2=LAN;0;0&langue1=LAN;0;0&langue0=LAN;-1;fre;0&langue4=LAN;0;0&datepub=3;1980&facPays=fr&pageRech=rav
+
+6704:
+http://catalogue.bnf.fr/search.do?mots1=TIT;1;1;russie+sovietique+sovi%C3%A9tique+urss&mots0=SUJ;-1;1;russie+sovietique+sovi%C3%A9tique+urss&facDocs=t;e;r;a;i&langue3=LAN;0;0&langue2=LAN;0;0&langue1=LAN;0;0&langue0=LAN;-1;fre;0&langue4=LAN;0;0&datepub=3;1980&facPays=fr&pageRech=rav
+
+8662:
+http://catalogue.bnf.fr/search.do?mots1=TIT;1;1;russe+russie+sovietique+sovi%C3%A9tique+urss&mots0=SUJ;-1;1;russe+russie+sovietique+sovi%C3%A9tique+urss&facDocs=t;e;r;a;i&langue3=LAN;0;0&langue2=LAN;0;0&langue1=LAN;0;0&langue0=LAN;-1;fre;0&langue4=LAN;0;0&datepub=3;1980&facPays=fr&pageRech=rav

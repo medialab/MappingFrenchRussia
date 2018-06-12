@@ -1,0 +1,261 @@
+<html>
+<head>
+<meta charset="utf-8"/>
+<link href="style-d3.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="d3.js"></script>
+<script type="text/javascript" src="d3.layout.js"></script>
+<style type="text/css">
+.node circle {
+  cursor: pointer;
+  fill: #fff;
+  stroke: #888;
+  stroke-width: 1.5px;
+}
+
+.node text {
+  font-size: 12px;
+}
+
+path.link {
+  fill: none;
+  stroke: #ccc;
+  stroke-width: 1.5px;
+}
+</style>
+</head>
+  <body>
+    <div id="body">
+    </div>
+    <div id="footer">
+        Phylogénie des directions de thèse
+        <div class="hint">Mapping French Russia - Base thèses.fr</div>
+    </div>
+    <div id="infobox">bleh
+    </div>
+ <script type="text/javascript">
+
+var m = [20, 120, 20, 120],
+    w = 1280 - m[1] - m[3],
+    h = 2800 - m[0] - m[2],
+    i = 0,
+    root;
+
+var max_range;
+
+var tree = d3.layout.tree()
+    .size([h, w]);
+
+var diagonal = d3.svg.diagonal()
+    .projection(function(d) { return [d.y, d.x]; });
+
+var vis = d3.select("#body").append("svg:svg")
+    .attr("width", w + m[1] + m[3])
+    .attr("height", h + m[0] + m[2])//;
+  .append("svg:g")
+    .attr("transform", "translate(" + m[3] + "," + m[0] + ")");
+
+d3.json("theses_transitive_or_multiple_tree.json", function(json) {
+  root = json;
+  //console.log(root);
+  root.x0 = h / 2;
+  root.y0 = 0;
+
+  function toggleAll(d) {
+    if (d.children) {
+      d.children.forEach(toggleAll);
+      toggle(d);
+    }
+  }
+
+  // Initialize the display to show a few nodes.
+  root.children.forEach(toggleAll);
+
+/*  toggle(root.children[1]);
+  toggle(root.children[1].children[2]);
+  toggle(root.children[9]);
+  toggle(root.children[9].children[0]);*/
+
+  max_range = root.children[0].descendant_count
+
+  update(root);
+});
+
+function update(source) {
+  var duration = d3.event && d3.event.altKey ? 5000 : 500;
+
+/*  // compute the new height
+  var levelWidth = [1];
+  var childCount = function(level, n) {
+
+    if(n.children && n.children.length > 0) {
+      if(levelWidth.length <= level + 1) levelWidth.push(0);
+      levelWidth[level+1] += n.children.length;
+      n.children.forEach(function(d) {
+        childCount(level + 1, d);
+      });
+    }
+  };
+  childCount(0, root);
+  var newHeight = d3.max(levelWidth) * 20; // 20 pixels per line
+  tree = tree.size([newHeight, w]);*/
+/*
+  d3.select("svg").remove();//TO REMOVE THE ALREADY SVG CONTENTS AND RELOAD ON EVERY UPDATE
+
+ svg = d3.select("#body").append("svg");
+
+ svg.attr("width", w + m[1] + m[3])
+ .attr("height", h + m[0] + m[2])
+ .append("g")
+ .attr("transform", "translate(" + m[3] + "," + m[0] + ")");*/
+
+
+  // Compute the new tree layout.
+  var nodes = tree.nodes(root).reverse();
+
+  // Normalize for fixed-depth.
+  nodes.forEach(function(d) {
+    d.y = /*d.year ?  220 + 10 * (d.year - 1980) :*/  d.depth * 220  /*180*/;
+//    console.log(d.y);
+    if (d.year) {
+      d.ay = 220 + 30 * (d.year - 1980);
+//      console.log(d.ay);
+    }
+  });
+
+  // Update the nodes…
+  var node = vis.selectAll("g.node")
+//  var node = vis.selectAll("svg.node")
+      .data(nodes, function(d) { return d.id || (d.id = ++i); });
+
+  // Enter any new nodes at the parent's previous position.
+  var nodeEnter = node.enter().append("svg:g")
+//  var nodeEnter = node.enter().append("svg:svg")
+      .attr("class", "node")
+      .attr("transform", function(d) { return "translate(" + source.y0 + "," + source.x0 + ")"; })
+      .on("click", function(d) { toggle(d); update(d); });
+
+  nodeEnter.append("svg:circle")
+      .attr("r", 1e-6)
+      .style("fill", function(d) { return d._children ? "lightsteelblue" : "#fff"; })
+      .on("mouseenter", function(d) {
+        var elem = document.getElementById("infobox");
+        elem.innerHTML = "<p>" + d.name + (d.topics ? "</p><p>" + d.topics + "</p>" : "</p>");
+      });
+
+  nodeEnter.append("svg:text")
+      .attr("x", function(d) { return d.children || d._children ? -10 : 10; })
+      .attr("dy", ".35em")
+      .attr("text-anchor", function(d) { return d.children || d._children ? "end" : "start"; })
+      .text(function(d) { year = d.year ? ' ('+d.year+')': ''; return d.name+year; })
+      .style("fill-opacity", 1e-6);
+
+  // Transition nodes to their new position.
+  var nodeUpdate = node.transition()
+      .duration(duration)
+      .attr("transform", function(d) { return "translate(" + d.y + "," + d.x + ")"; });
+//      .attr("transform", function(d) { return "translate(" + (d.ay ? d.ay: d.y) + "," + d.x + ")"; });
+
+  nodeUpdate.select("circle")
+      .attr("r", 4.5)
+      .style("fill", function(d) {
+          var color = "#FFFFFF";
+          if (d._children) {
+//            console.log(255-(d.descendant_count/max_range)*255)
+            color = "rgb(0, "+(255-(d.descendant_count/max_range)*255)+", 0)"
+/*            if (d._children.length < 3)
+              color = "#6ff299";
+//            else if (d._children.length < 5)
+//              color = "#62a37f";
+            else if (d._children.length < 6)
+              color = "#8cd480";
+            else if (d._children.length < 20)
+              color = "#3c9a55";
+            else
+              color = "#2f6936"*/
+          }
+          return color;
+      });
+
+  nodeUpdate.select("text")
+      .style("fill-opacity", 1);
+
+  // Transition exiting nodes to the parent's new position.
+  var nodeExit = node.exit().transition()
+      .duration(duration)
+      .attr("transform", function(d) { return "translate(" + source.y + "," + source.x + ")"; })
+      .remove();
+
+  nodeExit.select("circle")
+      .attr("r", 1e-6);
+
+  nodeExit.select("text")
+      .style("fill-opacity", 1e-6);
+
+  // Update the links…
+  var link = vis.selectAll("path.link")
+      .data(tree.links(nodes), function(d) { return d.target.id; });
+
+  // Enter any new links at the parent's previous position.
+  link.enter().insert("svg:path", "g")
+//  link.enter().insert("svg:path", "svg")
+      .attr("class", "link")
+      .attr("d", function(d) {
+        var o = {x: source.x0, y: source.y0};
+        return diagonal({source: o, target: o});
+      })
+    .transition()
+      .duration(duration)
+      .attr("d", diagonal);
+//      .attr("d", function(d) { return diagonal(d) + (d.ay ? ("T"+d.x + "," + d.ay): "");});
+
+  // Transition links to their new position.
+  link.transition()
+      .duration(duration)
+      .attr("d", diagonal);
+//      .attr("d", function(d) {
+//      console.log(d);
+//       return "M" + d.source.y0 + "," + d.source.x0
+//        + "C" + (d.source.y0 + d.target.y) / 2 + "," + d.source.x0
+//        + " " + (d.source.y0 + d.target.y) / 2 + "," + d.target.x
+//        + " " + d.target.y + "," + d.target.x + (d.target.ay ? "T"+d.target.ay + ","+ d.target.x : "");
+//      });
+//      .attr("d", function(d) { return diagonal(d) + (d.ay ? ("T"+d.x + "," + d.ay): "");});
+
+  // Transition exiting nodes to the parent's new position.
+  link.exit().transition()
+      .duration(duration)
+      .attr("d", function(d) {
+        var o = {x: source.x, y: source.y};
+        return diagonal({source: o, target: o});
+      })
+      .remove();
+
+  // Stash the old positions for transition.
+  nodes.forEach(function(d) {
+    d.x0 = d.x;
+    d.y0 = d.y;
+  });
+
+// Modify svg height
+/* window.setTimeout(function() {
+    var max = d3.max(d3.selectAll(".node")[0], function(g) {
+      return d3.transform(d3.select(g).attr("transform")).translate[1];
+    });
+    d3.select("svg").attr("height", max + 100)
+    console.log(max)
+  }, 800)*/
+}
+
+// Toggle children.
+function toggle(d) {
+  if (d.children) {
+    d._children = d.children;
+    d.children = null;
+  } else {
+    d.children = d._children;
+    d._children = null;
+  }
+}
+</script>
+</body>
+</html>
